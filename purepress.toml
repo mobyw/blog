@@ -1,0 +1,12 @@
+[site]
+title = "Xiaohei Terminal"
+subtitle = "Xiaohei's blog"
+author = "Xiaohei"
+copyright_year = "2022-2023"
+timezone = "Asia/Shanghai"
+language = "zh-Hans"
+
+[config]
+posts_per_index_page = 20
+hitokoto_enabled = true
+hitokoto_categories = ["a", "d", "i", "k"]
