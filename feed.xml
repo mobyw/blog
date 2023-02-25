@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+  <channel>
+    <title>Xiaohei Terminal</title>
+    <link>https://xiaohei.moe/feed.xml</link>
+    <description>Xiaohei's blog</description>
+    <atom:link href="https://xiaohei.moe/feed.xml" rel="self"/>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <generator>python-feedgen</generator>
+    <lastBuildDate>Sat, 25 Feb 2023 06:03:52 +0000</lastBuildDate>
+    <item>
+      <title>A demo post</title>
+      <link>https://xiaohei.moe/post/2023/02/25/demo/</link>
+      <description><![CDATA[<p>This is a demo post.</p>]]></description>
+      <guid isPermaLink="false">https://xiaohei.moe/post/2023/02/25/demo/</guid>
+      <pubDate>Sat, 25 Feb 2023 00:00:00 +0806</pubDate>
+    </item>
+  </channel>
+</rss>
