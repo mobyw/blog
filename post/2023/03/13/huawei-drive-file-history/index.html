@@ -1,18 +1,67 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
-  <channel>
-    <title>Xiaohei Terminal</title>
-    <link>https://xiaohei.moe/feed.xml</link>
-    <description>Xiaohei's blog</description>
-    <atom:link href="https://xiaohei.moe/feed.xml" rel="self"/>
-    <docs>http://www.rssboard.org/rss-specification</docs>
-    <generator>python-feedgen</generator>
-    <lastBuildDate>Mon, 13 Mar 2023 07:58:13 +0000</lastBuildDate>
-    <item>
-      <title>使用开发平台API下载华为云空间文件历史版本</title>
-      <link>https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</link>
-      <description><![CDATA[<p>近日有一个回退华为云空间文件版本的需求。虽然客户端上没有恢复版本文件的入口，但在华为开发者联盟上提供了查询文件历史版本的 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/server-quaring-history-version-0000001064501116">API</a> ，故尝试使用该 API 获取文件的历史版本。</p>
-<h2>准备工作</h2>
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="cleartype" content="on">
+<link rel="alternate" type="application/rss+xml" title="Xiaohei Terminal" href="/feed.xml" />
+<link href="/static/theme/style.css" rel="stylesheet">
+
+
+  
+<title>使用开发平台API下载华为云空间文件历史版本 - Xiaohei Terminal</title>
+<link rel="stylesheet" href="/static/theme/railscasts.min.css">
+<script src="/static/theme/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+
+</head>
+
+<body>
+  
+
+  <header class="header">
+    <nav class="nav">
+      <ul>
+        <li><a href="/">首页</a></li>
+<li><a href="/about/index.html">关于</a></li>
+<li><a href="/links/index.html">链接</a></li>
+<li><a href="https://github.com/mobyw" target="_blank">GitHub</a></li>
+<li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="body">
+    
+<main class="main page">
+  <article class="article">
+    <div class="title">
+      <h1 class="title">使用开发平台API下载华为云空间文件历史版本</h1>
+    </div>
+    
+<div class="meta">
+  
+  <time class="created" datetime="2023-03-13">March 13, 2023</time>
+  
+</div>
+
+    <div class="content">
+      
+      <details open>
+        <summary>目录：</summary>
+        <nav><ul>
+<li><a href="#准备工作">准备工作</a></li>
+<li><a href="#获取-Access-token">获取 Access token</a></li>
+<li><a href="#恢复文件">恢复文件</a></li>
+</ul></nav>
+      </details>
+      <hr>
+      
+
+      <p>近日有一个回退华为云空间文件版本的需求。虽然客户端上没有恢复版本文件的入口，但在华为开发者联盟上提供了查询文件历史版本的 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/server-quaring-history-version-0000001064501116">API</a> ，故尝试使用该 API 获取文件的历史版本。</p>
+<h2><a id="准备工作" href="#准备工作" class="anchor"></a>准备工作</h2>
 <p>注册华为开发者联盟账号后，需要完成实名认证，并在管理后台创建一个 AppGallery Connect 项目：</p>
 <p><img alt="项目创建" src="https://s2.loli.net/2023/03/13/qQvK7R4ftu9jCXU.png" /></p>
 <p>在该项目下创建一个应用，只需填写第一步的信息：</p>
@@ -22,10 +71,10 @@
 <p>在应用页面 <code>常规</code> 标签下找到 <code>应用</code> 栏，添加回调地址，可以使用一个不存在的网站：</p>
 <p><img alt="获取应用信息" src="https://s2.loli.net/2023/03/13/aTjbAuXpvMwDQfN.png" /></p>
 <p>记录下 <code>Client ID</code> 和 <code>Client Secret</code>。</p>
-<h2>获取 Access token</h2>
+<h2><a id="获取-Access-token" href="#获取-Access-token" class="anchor"></a>获取 Access token</h2>
 <p>此部分参考 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/open-platform-oauth-0000001053629189">基于OAuth 2.0开放鉴权</a> 中的 <code>授权码扩展模式（PKCE）</code> 部分。</p>
 <p>访问：</p>
-<p><a href="https://oauth-login.cloud.huawei.com/oauth2/v3/authorize?response_type=code&amp;code_challenge=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&amp;code_challenge_method=plain&amp;client_id={{client_id}}&amp;redirect_uri={{redirect_uri}}&amp;scope=openid+https://www.huawei.com/auth/drive">https://oauth-login.cloud.huawei.com/oauth2/v3/authorize?response_type=code&amp;code_challenge=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&amp;code_challenge_method=plain&amp;client_id={{client_id}}&amp;redirect_uri={{redirect_uri}}&amp;scope=openid+https://www.huawei.com/auth/drive</a></p>
+<p><a href="https://oauth-login.cloud.huawei.com/oauth2/v3/authorize?response_type=code&code_challenge=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&code_challenge_method=plain&client_id={{client_id}}&redirect_uri={{redirect_uri}}&scope=openid+https://www.huawei.com/auth/drive">https://oauth-login.cloud.huawei.com/oauth2/v3/authorize?response_type=code&amp;code_challenge=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&amp;code_challenge_method=plain&amp;client_id={{client_id}}&amp;redirect_uri={{redirect_uri}}&amp;scope=openid+https://www.huawei.com/auth/drive</a></p>
 <p>将 <code>client_id</code> 替换为准备工作中获取的 <code>Client ID</code>，<code>redirect_uri</code> 替换为准备工作中填写的回调地址。</p>
 <p>访问后回跳转到回调地址，参数为 <code>?code=...</code>，记录 <code>code</code> 的内容，作为授权码 Code。</p>
 <p>然后需要通过此授权码 Code 换取鉴权令牌：</p>
@@ -52,7 +101,7 @@ redirect_uri={{redirect_uri}}</code></pre>
 
 
 <p>记录 <code>access_token</code> 内容，在后续步骤中验证使用。</p>
-<h2>恢复文件</h2>
+<h2><a id="恢复文件" href="#恢复文件" class="anchor"></a>恢复文件</h2>
 <p>此部分参考 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/server-quaring-history-version-0000001064501116">查询文件历史版本</a> 。</p>
 <p>首先需要获取文件 <code>id</code>，如果文件较少可直接获取全部文件列表：</p>
 <pre class="highlight"><code class="language-http">### Get file list
@@ -135,9 +184,57 @@ Accept: application/json</code></pre>
 GET https://driveapis.cloud.huawei.com.cn/drive/v1/files/{{id}}/historyVersions/{{history_id}}?form=content HTTP/1.1
 Authorization: Bearer {{access_token}}
 Cache-Control: no-cache
-Accept: application/json</code></pre>]]></description>
-      <guid isPermaLink="false">https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</guid>
-      <pubDate>Mon, 13 Mar 2023 13:44:00 +0806</pubDate>
-    </item>
-  </channel>
-</rss>
+Accept: application/json</code></pre>
+    </div>
+  </article>
+  
+</main>
+
+  </div>
+
+  
+<footer class="footer" id="hitokoto">
+  <p>己所不欲，勿施于人</p>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto%3Ep&amp;c=a&amp;c=d&amp;c=i&amp;c=k"></script>
+</footer>
+
+  <footer class="footer" id="footer">
+    <p>&copy; 2022-2023 Xiaohei. All rights reserved.</p>
+<p>Powered by <a href="https://github.com/verilab/purepress">PurePress</a> and <a
+    href="https://github.com/verilab/purepress-theme-minimal">Minimal</a>.</p>
+  </footer>
+
+  
+
+  <script>
+  let elems = document.getElementsByTagName("a");
+  for (let i = 0; i < elems.length; i++) {
+    if (elems[i].href.indexOf(document.domain) < 0) {
+      elems[i].target = "_blank";
+    }
+  }
+</script>
+  
+<script>
+  // enable code syntax highlight
+  hljs.configure({ languages: [] }); // disable language auto detection
+  hljs.initHighlightingOnLoad();
+
+  // enable medium-zoom for all images
+  mediumZoom(document.querySelectorAll('.content img'));
+</script>
+
+</body>
+
+</html>
