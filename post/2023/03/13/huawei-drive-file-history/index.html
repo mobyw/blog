@@ -12,7 +12,7 @@
 
 
   
-<title>使用开发平台API下载华为云空间文件历史版本 - Xiaohei Terminal</title>
+<title>使用开发平台 API 下载华为云空间文件历史版本 - Xiaohei Terminal</title>
 <link rel="stylesheet" href="/static/theme/railscasts.min.css">
 <script src="/static/theme/highlight.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
@@ -38,7 +38,7 @@
 <main class="main page">
   <article class="article">
     <div class="title">
-      <h1 class="title">使用开发平台API下载华为云空间文件历史版本</h1>
+      <h1 class="title">使用开发平台 API 下载华为云空间文件历史版本</h1>
     </div>
     
 <div class="meta">
@@ -72,7 +72,7 @@
 <p><img alt="获取应用信息" src="https://s2.loli.net/2023/03/13/aTjbAuXpvMwDQfN.png" /></p>
 <p>记录下 <code>Client ID</code> 和 <code>Client Secret</code>。</p>
 <h2><a id="获取-Access-token" href="#获取-Access-token" class="anchor"></a>获取 Access token</h2>
-<p>此部分参考 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/open-platform-oauth-0000001053629189">基于OAuth 2.0开放鉴权</a> 中的 <code>授权码扩展模式（PKCE）</code> 部分。</p>
+<p>此部分参考 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/open-platform-oauth-0000001053629189">基于 OAuth 2.0 开放鉴权</a> 中的 <code>授权码扩展模式（PKCE）</code> 部分。</p>
 <p>访问：</p>
 <p><a href="https://oauth-login.cloud.huawei.com/oauth2/v3/authorize?response_type=code&code_challenge=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&code_challenge_method=plain&client_id={{client_id}}&redirect_uri={{redirect_uri}}&scope=openid+https://www.huawei.com/auth/drive">https://oauth-login.cloud.huawei.com/oauth2/v3/authorize?response_type=code&amp;code_challenge=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&amp;code_challenge_method=plain&amp;client_id={{client_id}}&amp;redirect_uri={{redirect_uri}}&amp;scope=openid+https://www.huawei.com/auth/drive</a></p>
 <p>将 <code>client_id</code> 替换为准备工作中获取的 <code>Client ID</code>，<code>redirect_uri</code> 替换为准备工作中填写的回调地址。</p>
@@ -92,11 +92,11 @@ redirect_uri={{redirect_uri}}</code></pre>
 
 <p>填写 <code>code</code> <code>client_id</code> <code>client_secret</code> <code>redirect_uri</code>，注意 <code>code</code> 需要进行 URL 编码。发送请求，获得的结果如下：</p>
 <pre class="highlight"><code class="language-json">{
-    &quot;scope&quot;: &quot;https://www.huawei.com/auth/drive openid&quot;,
-    &quot;access_token&quot;: &quot;DA************&quot;,
-    &quot;token_type&quot;: &quot;Bearer&quot;,
-    &quot;expires_in&quot;: 3600,
-    &quot;id_token&quot;: &quot;...&quot;
+  &quot;scope&quot;: &quot;https://www.huawei.com/auth/drive openid&quot;,
+  &quot;access_token&quot;: &quot;DA************&quot;,
+  &quot;token_type&quot;: &quot;Bearer&quot;,
+  &quot;expires_in&quot;: 3600,
+  &quot;id_token&quot;: &quot;...&quot;
 }</code></pre>
 
 
@@ -123,28 +123,28 @@ Accept: application/json</code></pre>
 <p>测试时该接口经常提示无权限，但多次访问后又会正常返回，如果配置信息正确仍提示 <code>INSUFFICIENT_SCOPE</code> 就多试几次。</p>
 <p>返回结果格式如下：</p>
 <pre class="highlight"><code class="language-json">{
-    &quot;files&quot;: [
-        {
-            &quot;fileName&quot;: &quot;测试.doc&quot;,
-            &quot;sha256&quot;: &quot;30e0ee3fc2ac07ca2e2fedfa4aad5a293c13a28268f4843f354f2675f78f991d&quot;,
-            &quot;fileSuffix&quot;: &quot;doc&quot;,
-            &quot;mimeType&quot;: &quot;application/octet-stream&quot;,
-            &quot;lastHistoryVersionId&quot;: &quot;1110774401038742656.1110774800504128256&quot;,
-            &quot;editedByMeTime&quot;: &quot;2023-03-13T05:51:14.000Z&quot;,
-            &quot;createdTime&quot;: &quot;2023-03-13T05:50:27.166Z&quot;,
-            &quot;id&quot;: &quot;BoAY1s_TPZKYqq3HJGUtObq9sd5VZTUUm&quot;,
-            &quot;version&quot;: 5,
-            &quot;iconDownloadLink&quot;: &quot;https://event.dbankcdn.com/filemanagerpic/20191114101425c162.png&quot;,
-            &quot;editedTime&quot;: &quot;2023-03-13T05:51:14.000Z&quot;,
-            &quot;size&quot;: 38912,
-            &quot;fullFileSuffix&quot;: &quot;doc&quot;,
-            &quot;category&quot;: &quot;drive#file&quot;,
-        },
-        {
-            // ...
-        }
-    ],
-    &quot;category&quot;: &quot;drive#fileList&quot;
+  &quot;files&quot;: [
+    {
+      &quot;fileName&quot;: &quot;测试.doc&quot;,
+      &quot;sha256&quot;: &quot;30e0ee3fc2ac07ca2e2fedfa4aad5a293c13a28268f4843f354f2675f78f991d&quot;,
+      &quot;fileSuffix&quot;: &quot;doc&quot;,
+      &quot;mimeType&quot;: &quot;application/octet-stream&quot;,
+      &quot;lastHistoryVersionId&quot;: &quot;1110774401038742656.1110774800504128256&quot;,
+      &quot;editedByMeTime&quot;: &quot;2023-03-13T05:51:14.000Z&quot;,
+      &quot;createdTime&quot;: &quot;2023-03-13T05:50:27.166Z&quot;,
+      &quot;id&quot;: &quot;BoAY1s_TPZKYqq3HJGUtObq9sd5VZTUUm&quot;,
+      &quot;version&quot;: 5,
+      &quot;iconDownloadLink&quot;: &quot;https://event.dbankcdn.com/filemanagerpic/20191114101425c162.png&quot;,
+      &quot;editedTime&quot;: &quot;2023-03-13T05:51:14.000Z&quot;,
+      &quot;size&quot;: 38912,
+      &quot;fullFileSuffix&quot;: &quot;doc&quot;,
+      &quot;category&quot;: &quot;drive#file&quot;
+    },
+    {
+      // ...
+    }
+  ],
+  &quot;category&quot;: &quot;drive#fileList&quot;
 }</code></pre>
 
 
@@ -158,24 +158,24 @@ Accept: application/json</code></pre>
 
 <p>返回结果如下：</p>
 <pre class="highlight"><code class="language-json">{
-    &quot;historyVersions&quot;: [
-        {
-            &quot;editedTime&quot;: &quot;2023-03-13T05:51:15.063Z&quot;,
-            &quot;size&quot;: 38912,
-            &quot;sha256&quot;: &quot;ce6376d16144b5c36da0414a4666a33bb15624f8b5c0553dad1ae456c64510ac&quot;,
-            &quot;id&quot;: &quot;1110774401038742656.1110774800504128256&quot;,
-            &quot;mimeType&quot;: &quot;application/octet-stream&quot;,
-            &quot;category&quot;: &quot;drive#historyVersion&quot;,
-            &quot;originalFilename&quot;: &quot;nonamea696f86cb6e045d19c696396636595b5&quot;
-        },
-        {
-            // ...
-        },
-        {
-            // ...
-        }
-    ],
-    &quot;category&quot;: &quot;drive#historyVersionList&quot;
+  &quot;historyVersions&quot;: [
+    {
+      &quot;editedTime&quot;: &quot;2023-03-13T05:51:15.063Z&quot;,
+      &quot;size&quot;: 38912,
+      &quot;sha256&quot;: &quot;ce6376d16144b5c36da0414a4666a33bb15624f8b5c0553dad1ae456c64510ac&quot;,
+      &quot;id&quot;: &quot;1110774401038742656.1110774800504128256&quot;,
+      &quot;mimeType&quot;: &quot;application/octet-stream&quot;,
+      &quot;category&quot;: &quot;drive#historyVersion&quot;,
+      &quot;originalFilename&quot;: &quot;nonamea696f86cb6e045d19c696396636595b5&quot;
+    },
+    {
+      // ...
+    },
+    {
+      // ...
+    }
+  ],
+  &quot;category&quot;: &quot;drive#historyVersionList&quot;
 }</code></pre>
 
 

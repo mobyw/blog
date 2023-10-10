@@ -1,149 +1,67 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
-  <channel>
-    <title>Xiaohei Terminal</title>
-    <link>https://xiaohei.moe/feed.xml</link>
-    <description>Xiaohei's blog</description>
-    <atom:link href="https://xiaohei.moe/feed.xml" rel="self"/>
-    <docs>http://www.rssboard.org/rss-specification</docs>
-    <generator>python-feedgen</generator>
-    <lastBuildDate>Tue, 10 Oct 2023 13:23:24 +0000</lastBuildDate>
-    <item>
-      <title>使用开发平台 API 下载华为云空间文件历史版本</title>
-      <link>https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</link>
-      <description><![CDATA[<p>近日有一个回退华为云空间文件版本的需求。虽然客户端上没有恢复版本文件的入口，但在华为开发者联盟上提供了查询文件历史版本的 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/server-quaring-history-version-0000001064501116">API</a> ，故尝试使用该 API 获取文件的历史版本。</p>
-<h2>准备工作</h2>
-<p>注册华为开发者联盟账号后，需要完成实名认证，并在管理后台创建一个 AppGallery Connect 项目：</p>
-<p><img alt="项目创建" src="https://s2.loli.net/2023/03/13/qQvK7R4ftu9jCXU.png" /></p>
-<p>在该项目下创建一个应用，只需填写第一步的信息：</p>
-<p><img alt="应用创建" src="https://s2.loli.net/2023/03/13/zb6KhOv2T3PcIBp.png" /></p>
-<p>创建应用后回到项目页面，在 <code>API管理</code> 标签下打开 <code>云空间</code> 选项：</p>
-<p><img alt="云空间权限使能" src="https://s2.loli.net/2023/03/13/IwJjXcuExHF4p7a.png" /></p>
-<p>在应用页面 <code>常规</code> 标签下找到 <code>应用</code> 栏，添加回调地址，可以使用一个不存在的网站：</p>
-<p><img alt="获取应用信息" src="https://s2.loli.net/2023/03/13/aTjbAuXpvMwDQfN.png" /></p>
-<p>记录下 <code>Client ID</code> 和 <code>Client Secret</code>。</p>
-<h2>获取 Access token</h2>
-<p>此部分参考 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/open-platform-oauth-0000001053629189">基于 OAuth 2.0 开放鉴权</a> 中的 <code>授权码扩展模式（PKCE）</code> 部分。</p>
-<p>访问：</p>
-<p><a href="https://oauth-login.cloud.huawei.com/oauth2/v3/authorize?response_type=code&amp;code_challenge=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&amp;code_challenge_method=plain&amp;client_id={{client_id}}&amp;redirect_uri={{redirect_uri}}&amp;scope=openid+https://www.huawei.com/auth/drive">https://oauth-login.cloud.huawei.com/oauth2/v3/authorize?response_type=code&amp;code_challenge=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&amp;code_challenge_method=plain&amp;client_id={{client_id}}&amp;redirect_uri={{redirect_uri}}&amp;scope=openid+https://www.huawei.com/auth/drive</a></p>
-<p>将 <code>client_id</code> 替换为准备工作中获取的 <code>Client ID</code>，<code>redirect_uri</code> 替换为准备工作中填写的回调地址。</p>
-<p>访问后回跳转到回调地址，参数为 <code>?code=...</code>，记录 <code>code</code> 的内容，作为授权码 Code。</p>
-<p>然后需要通过此授权码 Code 换取鉴权令牌：</p>
-<pre class="highlight"><code class="language-http">### Get access token by authorization code
-POST https://oauth-login.cloud.huawei.com/oauth2/v3/token HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
+<!DOCTYPE html>
+<html lang="zh-Hans">
 
-grant_type=authorization_code&amp;
-code={{code}}&amp;
-client_id={{client_id}}&amp;
-client_secret={{client_secret}}&amp;
-code_verifier=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&amp;
-redirect_uri={{redirect_uri}}</code></pre>
+<head>
+  
+
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="cleartype" content="on">
+<link rel="alternate" type="application/rss+xml" title="Xiaohei Terminal" href="/feed.xml" />
+<link href="/static/theme/style.css" rel="stylesheet">
 
 
-<p>填写 <code>code</code> <code>client_id</code> <code>client_secret</code> <code>redirect_uri</code>，注意 <code>code</code> 需要进行 URL 编码。发送请求，获得的结果如下：</p>
-<pre class="highlight"><code class="language-json">{
-  &quot;scope&quot;: &quot;https://www.huawei.com/auth/drive openid&quot;,
-  &quot;access_token&quot;: &quot;DA************&quot;,
-  &quot;token_type&quot;: &quot;Bearer&quot;,
-  &quot;expires_in&quot;: 3600,
-  &quot;id_token&quot;: &quot;...&quot;
-}</code></pre>
+  
+<title>不同高级语言的 URL 编码差异 - Xiaohei Terminal</title>
+<link rel="stylesheet" href="/static/theme/railscasts.min.css">
+<script src="/static/theme/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
 
+</head>
 
-<p>记录 <code>access_token</code> 内容，在后续步骤中验证使用。</p>
-<h2>恢复文件</h2>
-<p>此部分参考 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/server-quaring-history-version-0000001064501116">查询文件历史版本</a> 。</p>
-<p>首先需要获取文件 <code>id</code>，如果文件较少可直接获取全部文件列表：</p>
-<pre class="highlight"><code class="language-http">### Get file list
-GET https://driveapis.cloud.huawei.com.cn/drive/v1/files?fields=* HTTP/1.1
-Accept: application/json
-Cache-Control: no-cache
-Authorization: Bearer {{access_token}}</code></pre>
+<body>
+  
 
+  <header class="header">
+    <nav class="nav">
+      <ul>
+        <li><a href="/">首页</a></li>
+<li><a href="/about/index.html">关于</a></li>
+<li><a href="/links/index.html">链接</a></li>
+<li><a href="https://github.com/mobyw" target="_blank">GitHub</a></li>
+<li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="body">
+    
+<main class="main page">
+  <article class="article">
+    <div class="title">
+      <h1 class="title">不同高级语言的 URL 编码差异</h1>
+    </div>
+    
+<div class="meta">
+  
+  <time class="created" datetime="2023-08-07">August  7, 2023</time>
+  
+</div>
 
-<p>如果文件较多可以参考 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/server-public-info-0000001050159641">文档</a> 中 <code>mimeType</code> 的介绍进行搜索与排序，下面是一个按编辑日期倒序排序 <code>.docx</code> 文件的示例：</p>
-<pre class="highlight"><code class="language-http">### Get `.docx` file list ordered by editedTime desc
-GET https://driveapis.cloud.huawei.com.cn/drive/v1/files?fields=*&amp;queryParam=mimeType%3D%27application%2Fvnd.openxmlformats-officedocument.wordprocessingml.document%27&amp;orderBy=editedTime%20desc HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{access_token}}
-Cache-Control: no-cache
-Accept: application/json</code></pre>
+    <div class="content">
+      
+      <details open>
+        <summary>目录：</summary>
+        <nav><ul>
+<li><a href="#相关标准">相关标准</a></li>
+<li><a href="#测试结果">测试结果</a></li>
+<li><a href="#测试代码">测试代码</a></li>
+</ul></nav>
+      </details>
+      <hr>
+      
 
-
-<p>测试时该接口经常提示无权限，但多次访问后又会正常返回，如果配置信息正确仍提示 <code>INSUFFICIENT_SCOPE</code> 就多试几次。</p>
-<p>返回结果格式如下：</p>
-<pre class="highlight"><code class="language-json">{
-  &quot;files&quot;: [
-    {
-      &quot;fileName&quot;: &quot;测试.doc&quot;,
-      &quot;sha256&quot;: &quot;30e0ee3fc2ac07ca2e2fedfa4aad5a293c13a28268f4843f354f2675f78f991d&quot;,
-      &quot;fileSuffix&quot;: &quot;doc&quot;,
-      &quot;mimeType&quot;: &quot;application/octet-stream&quot;,
-      &quot;lastHistoryVersionId&quot;: &quot;1110774401038742656.1110774800504128256&quot;,
-      &quot;editedByMeTime&quot;: &quot;2023-03-13T05:51:14.000Z&quot;,
-      &quot;createdTime&quot;: &quot;2023-03-13T05:50:27.166Z&quot;,
-      &quot;id&quot;: &quot;BoAY1s_TPZKYqq3HJGUtObq9sd5VZTUUm&quot;,
-      &quot;version&quot;: 5,
-      &quot;iconDownloadLink&quot;: &quot;https://event.dbankcdn.com/filemanagerpic/20191114101425c162.png&quot;,
-      &quot;editedTime&quot;: &quot;2023-03-13T05:51:14.000Z&quot;,
-      &quot;size&quot;: 38912,
-      &quot;fullFileSuffix&quot;: &quot;doc&quot;,
-      &quot;category&quot;: &quot;drive#file&quot;
-    },
-    {
-      // ...
-    }
-  ],
-  &quot;category&quot;: &quot;drive#fileList&quot;
-}</code></pre>
-
-
-<p>找到对应的文件并记录其 <code>id</code>，然后获取其历史记录：</p>
-<pre class="highlight"><code class="language-http">### Get file history
-GET https://driveapis.cloud.huawei.com.cn/drive/v1/files/{{id}}/historyVersions?fields=* HTTP/1.1
-Authorization: Bearer {{access_token}}
-Cache-Control: no-cache
-Accept: application/json</code></pre>
-
-
-<p>返回结果如下：</p>
-<pre class="highlight"><code class="language-json">{
-  &quot;historyVersions&quot;: [
-    {
-      &quot;editedTime&quot;: &quot;2023-03-13T05:51:15.063Z&quot;,
-      &quot;size&quot;: 38912,
-      &quot;sha256&quot;: &quot;ce6376d16144b5c36da0414a4666a33bb15624f8b5c0553dad1ae456c64510ac&quot;,
-      &quot;id&quot;: &quot;1110774401038742656.1110774800504128256&quot;,
-      &quot;mimeType&quot;: &quot;application/octet-stream&quot;,
-      &quot;category&quot;: &quot;drive#historyVersion&quot;,
-      &quot;originalFilename&quot;: &quot;nonamea696f86cb6e045d19c696396636595b5&quot;
-    },
-    {
-      // ...
-    },
-    {
-      // ...
-    }
-  ],
-  &quot;category&quot;: &quot;drive#historyVersionList&quot;
-}</code></pre>
-
-
-<p>根据编辑时间找到需要的版本（UTC 时间），记录下历史文件的 <code>id</code>，由于和文件 <code>id</code> 重名，在下面表示为 <code>history_id</code>。直接下载对应历史版本文件：</p>
-<pre class="highlight"><code class="language-http">### Get file
-GET https://driveapis.cloud.huawei.com.cn/drive/v1/files/{{id}}/historyVersions/{{history_id}}?form=content HTTP/1.1
-Authorization: Bearer {{access_token}}
-Cache-Control: no-cache
-Accept: application/json</code></pre>]]></description>
-      <guid isPermaLink="false">https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</guid>
-      <pubDate>Mon, 13 Mar 2023 13:44:00 +0806</pubDate>
-    </item>
-    <item>
-      <title>不同高级语言的 URL 编码差异</title>
-      <link>https://xiaohei.moe/post/2023/08/07/url-encode-differentiation/</link>
-      <description><![CDATA[<p>水群时看到有群友遇到了因 URL 对字符 <code>*</code> 的编码不符合预期问题导致的程序错误，便做此篇测试部分高级语言的 URL 编码实现有何不同。</p>
-<h2>相关标准</h2>
+      <p>水群时看到有群友遇到了因 URL 对字符 <code>*</code> 的编码不符合预期问题导致的程序错误，便做此篇测试部分高级语言的 URL 编码实现有何不同。</p>
+<h2><a id="相关标准" href="#相关标准" class="anchor"></a>相关标准</h2>
 <p>由于 <a href="https://datatracker.ietf.org/doc/html/rfc1738">RFC 1738: Uniform Resource Locators (URL)</a> 并非互联网标准 (Internet Standard)，故本文参考互联网标准 <a href="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986: Uniform Resource Identifier (URI): Generic Syntax</a> 编写。该标准推荐使用通用术语 "URI"，而不是限制性更强的术语 "URL "和 "URN" <a href="https://datatracker.ietf.org/doc/html/rfc3305">(RFC3305)</a>。</p>
 <p>RFC 3986 对 URI 中非保留字符的定义如下：</p>
 <pre class="highlight"><code class="language-text">unreserved  = ALPHA / DIGIT / &quot;-&quot; / &quot;.&quot; / &quot;_&quot; / &quot;~&quot;</code></pre>
@@ -217,7 +135,7 @@ fragment      = *( pchar / &quot;/&quot; / &quot;?&quot; )</code></pre>
 
 
 <p>如果按照以上文法推导，<code>sub-delims</code> 中的字符在 <code>authority</code> <code>path</code> <code>query</code> <code>fragment</code> 中均可能保持原样。为找出不同高级语言对这些字符转义处理的差别，下面进行了一个简单的测试，先给出了测试结果，具体的测试代码及输出在最后给出。</p>
-<h2>测试结果</h2>
+<h2><a id="测试结果" href="#测试结果" class="anchor"></a>测试结果</h2>
 <p>仅测试了在 <code>query</code> 段中的编码和解码情况，在所有编码测试中，以 <code>sub-delims</code> 中的字符均已编码，<code>unreserved</code> 中的特殊字符均未编码为参考结果，标注与参考结果有差别的字符表。解码测试使用全部特殊字符转义的字符串，由于解码结果均相同，不额外展示在表格中。</p>
 <table>
 <thead>
@@ -275,7 +193,7 @@ fragment      = *( pchar / &quot;/&quot; / &quot;?&quot; )</code></pre>
 </table>
 <p>虽然编码时对符号的转义处理不同，但是使用全部转义的 <code>sub-delims</code> 以及 <code>unreserved</code> 中的特殊字符进行测试时被测程序都能正确进行解码。</p>
 <p>详细的测试结果如下。</p>
-<h2>测试代码</h2>
+<h2><a id="测试代码" href="#测试代码" class="anchor"></a>测试代码</h2>
 <p>Python:</p>
 <pre class="highlight"><code class="language-python">from urllib.parse import urlencode, unquote
 
@@ -372,9 +290,58 @@ echo $decoded[&quot;param&quot;] . &quot;\n&quot;;
 
 
 <pre class="highlight"><code class="language-text">param=%21%24%26%27%28%29%2A%2B%2C%3B%3D-._%7E
-!$&amp;'()*+,;=-._~</code></pre>]]></description>
-      <guid isPermaLink="false">https://xiaohei.moe/post/2023/08/07/url-encode-differentiation/</guid>
-      <pubDate>Mon, 07 Aug 2023 20:00:00 +0806</pubDate>
-    </item>
-  </channel>
-</rss>
+!$&amp;'()*+,;=-._~</code></pre>
+    </div>
+  </article>
+  
+</main>
+
+  </div>
+
+  
+<footer class="footer" id="hitokoto">
+  <p>己所不欲，勿施于人</p>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto%3Ep&amp;c=a&amp;c=d&amp;c=i&amp;c=k"></script>
+</footer>
+
+  <footer class="footer" id="footer">
+    <p><a href="https://icp.gov.moe/?keyword=20230963" target="_blank">萌ICP备20230963号</a></p>
+<p>&copy; 2022-2023 Xiaohei. All rights reserved.</p>
+<p>Powered by <a href="https://github.com/verilab/purepress">PurePress</a> and <a
+        href="https://github.com/verilab/purepress-theme-minimal">Minimal</a>.</p>
+  </footer>
+
+  
+
+  <script>
+  let elems = document.getElementsByTagName("a");
+  for (let i = 0; i < elems.length; i++) {
+    if (elems[i].href.indexOf(document.domain) < 0) {
+      elems[i].target = "_blank";
+    }
+  }
+</script>
+  
+<script>
+  // enable code syntax highlight
+  hljs.configure({ languages: [] }); // disable language auto detection
+  hljs.initHighlightingOnLoad();
+
+  // enable medium-zoom for all images
+  mediumZoom(document.querySelectorAll('.content img'));
+</script>
+
+</body>
+
+</html>
