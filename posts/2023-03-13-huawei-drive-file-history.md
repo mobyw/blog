@@ -1,5 +1,5 @@
 ---
-title: 使用开发平台API下载华为云空间文件历史版本
+title: 使用开发平台 API 下载华为云空间文件历史版本
 categories: Misc
 tags: []
 created: 2023-03-13 13:44:00
@@ -29,7 +29,7 @@ created: 2023-03-13 13:44:00
 
 ## 获取 Access token
 
-此部分参考 [基于OAuth 2.0开放鉴权](https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/open-platform-oauth-0000001053629189) 中的 `授权码扩展模式（PKCE）` 部分。
+此部分参考 [基于 OAuth 2.0 开放鉴权](https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/open-platform-oauth-0000001053629189) 中的 `授权码扩展模式（PKCE）` 部分。
 
 访问：
 
@@ -58,11 +58,11 @@ redirect_uri={{redirect_uri}}
 
 ```json
 {
-    "scope": "https://www.huawei.com/auth/drive openid",
-    "access_token": "DA************",
-    "token_type": "Bearer",
-    "expires_in": 3600,
-    "id_token": "..."
+  "scope": "https://www.huawei.com/auth/drive openid",
+  "access_token": "DA************",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "id_token": "..."
 }
 ```
 
@@ -99,28 +99,28 @@ Accept: application/json
 
 ```json
 {
-    "files": [
-        {
-            "fileName": "测试.doc",
-            "sha256": "30e0ee3fc2ac07ca2e2fedfa4aad5a293c13a28268f4843f354f2675f78f991d",
-            "fileSuffix": "doc",
-            "mimeType": "application/octet-stream",
-            "lastHistoryVersionId": "1110774401038742656.1110774800504128256",
-            "editedByMeTime": "2023-03-13T05:51:14.000Z",
-            "createdTime": "2023-03-13T05:50:27.166Z",
-            "id": "BoAY1s_TPZKYqq3HJGUtObq9sd5VZTUUm",
-            "version": 5,
-            "iconDownloadLink": "https://event.dbankcdn.com/filemanagerpic/20191114101425c162.png",
-            "editedTime": "2023-03-13T05:51:14.000Z",
-            "size": 38912,
-            "fullFileSuffix": "doc",
-            "category": "drive#file",
-        },
-        {
-            // ...
-        }
-    ],
-    "category": "drive#fileList"
+  "files": [
+    {
+      "fileName": "测试.doc",
+      "sha256": "30e0ee3fc2ac07ca2e2fedfa4aad5a293c13a28268f4843f354f2675f78f991d",
+      "fileSuffix": "doc",
+      "mimeType": "application/octet-stream",
+      "lastHistoryVersionId": "1110774401038742656.1110774800504128256",
+      "editedByMeTime": "2023-03-13T05:51:14.000Z",
+      "createdTime": "2023-03-13T05:50:27.166Z",
+      "id": "BoAY1s_TPZKYqq3HJGUtObq9sd5VZTUUm",
+      "version": 5,
+      "iconDownloadLink": "https://event.dbankcdn.com/filemanagerpic/20191114101425c162.png",
+      "editedTime": "2023-03-13T05:51:14.000Z",
+      "size": 38912,
+      "fullFileSuffix": "doc",
+      "category": "drive#file"
+    },
+    {
+      // ...
+    }
+  ],
+  "category": "drive#fileList"
 }
 ```
 
@@ -138,24 +138,24 @@ Accept: application/json
 
 ```json
 {
-    "historyVersions": [
-        {
-            "editedTime": "2023-03-13T05:51:15.063Z",
-            "size": 38912,
-            "sha256": "ce6376d16144b5c36da0414a4666a33bb15624f8b5c0553dad1ae456c64510ac",
-            "id": "1110774401038742656.1110774800504128256",
-            "mimeType": "application/octet-stream",
-            "category": "drive#historyVersion",
-            "originalFilename": "nonamea696f86cb6e045d19c696396636595b5"
-        },
-        {
-            // ...
-        },
-        {
-            // ...
-        }
-    ],
-    "category": "drive#historyVersionList"
+  "historyVersions": [
+    {
+      "editedTime": "2023-03-13T05:51:15.063Z",
+      "size": 38912,
+      "sha256": "ce6376d16144b5c36da0414a4666a33bb15624f8b5c0553dad1ae456c64510ac",
+      "id": "1110774401038742656.1110774800504128256",
+      "mimeType": "application/octet-stream",
+      "category": "drive#historyVersion",
+      "originalFilename": "nonamea696f86cb6e045d19c696396636595b5"
+    },
+    {
+      // ...
+    },
+    {
+      // ...
+    }
+  ],
+  "category": "drive#historyVersionList"
 }
 ```
 
