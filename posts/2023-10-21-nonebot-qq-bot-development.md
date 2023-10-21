@@ -1,5 +1,5 @@
 ---
-title: 使用 NoneBot 开发 QQ 机器人指南
+title: NoneBot QQ 机器人开发指南
 categories: Python
 tags: [Bot]
 created: 2023-10-21 17:15:00
