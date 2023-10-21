@@ -7,7 +7,7 @@
     <atom:link href="https://xiaohei.moe/feed.xml" rel="self"/>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Sat, 21 Oct 2023 09:18:56 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 21 Oct 2023 09:19:43 +0000</lastBuildDate>
     <item>
       <title>使用开发平台 API 下载华为云空间文件历史版本</title>
       <link>https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</link>
@@ -381,7 +381,7 @@ echo $decoded[&quot;param&quot;] . &quot;\n&quot;;
       <link>https://xiaohei.moe/post/2023/10/21/nonebot-qq-bot-development/</link>
       <description><![CDATA[<p><a href="https://q.qq.com/#/">QQ 开放平台</a> 近期将把之前已经用于频道的 <a href="https://bot.q.qq.com/wiki">QQ 机器人</a> 扩展到群聊和私聊场景。虽然功能限制较多，但由于其是官方 API，稳定性会比较好。本篇文章为使用 NoneBot 开发 QQ 机器人的教程，阅读本教程需要有一定 Python 开发基础。需要注意，本教程仅为相关文档的补充，请仔细阅读文中引用的文档。</p>
 <h2>前期准备</h2>
-<h2>了解机器人能力</h2>
+<h3>了解机器人能力</h3>
 <p>QQ 机器人应用于频道和群聊两个主要场景，可以在单聊、群聊、文字子频道、频道私信使用，提供的频道机器人能力可以参考 <a href="https://bot.q.qq.com/wiki/develop/api/">API 文档</a>；群聊机器人能力暂未公开发布，可先参考 <a href="https://docs.qq.com/doc/DRkVHT1N2a1JYSnVr">QQ Bot 开发者文档【内测版】</a>。</p>
 <p>需要注意的限制有：</p>
 <ul>
