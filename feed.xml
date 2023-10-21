@@ -7,7 +7,7 @@
     <atom:link href="https://xiaohei.moe/feed.xml" rel="self"/>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Tue, 10 Oct 2023 13:23:24 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 21 Oct 2023 09:16:54 +0000</lastBuildDate>
     <item>
       <title>使用开发平台 API 下载华为云空间文件历史版本</title>
       <link>https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</link>
@@ -375,6 +375,126 @@ echo $decoded[&quot;param&quot;] . &quot;\n&quot;;
 !$&amp;'()*+,;=-._~</code></pre>]]></description>
       <guid isPermaLink="false">https://xiaohei.moe/post/2023/08/07/url-encode-differentiation/</guid>
       <pubDate>Mon, 07 Aug 2023 20:00:00 +0806</pubDate>
+    </item>
+    <item>
+      <title>使用 NoneBot 开发 QQ 机器人指南</title>
+      <link>https://xiaohei.moe/post/2023/10/21/nonebot-qq-bot-development/</link>
+      <description><![CDATA[<p><a href="https://q.qq.com/#/">QQ 开放平台</a> 近期将把之前已经用于频道的 <a href="https://bot.q.qq.com/wiki">QQ 机器人</a> 扩展到群聊和私聊场景。虽然功能限制较多，但由于其是官方 API，稳定性会比较好。本篇文章为使用 NoneBot 开发 QQ 机器人的教程，阅读本教程需要有一定 Python 开发基础。需要注意，本教程仅为相关文档的补充，请仔细阅读文中引用的文档。</p>
+<h2>前期准备</h2>
+<h2>了解机器人能力</h2>
+<p>QQ 机器人应用于频道和群聊两个主要场景，可以在单聊、群聊、文字子频道、频道私信使用，提供的频道机器人能力可以参考 <a href="https://bot.q.qq.com/wiki/develop/api/">API 文档</a>；群聊机器人能力暂未公开发布，可先参考 <a href="https://docs.qq.com/doc/DRkVHT1N2a1JYSnVr">QQ Bot 开发者文档【内测版】</a>。</p>
+<p>需要注意的限制有：</p>
+<ul>
+<li>发送消息文本中的链接需要经过 ICP 备案，并在 QQ 机器人管理端进行根目录文件验证绑定。其他含有格式为 <code>英文.英文</code> 的文本也无法发送，如 <code>bot.self_id</code>，可以考虑将 <code>.</code> 替换为其他符号。</li>
+<li>无法在群聊和文字子频道接收图片和视频。</li>
+<li>无法在文字子频道和频道私信收发语音和文件，无法在群聊接收语音和文件。</li>
+<li>所有群管理能力暂不对外开放。</li>
+</ul>
+<h3>创建沙箱频道</h3>
+<p>当前 QQ 机器人需要在沙箱频道中进行测试，请确保所使用的开发者 QQ 账号拥有 QQ 频道内测权限，并创建一个频道供机器人测试使用，并确保该频道人数小于 20 人。</p>
+<h3>私域机器人</h3>
+<p>公域 QQ 机器人只能响应 @机器人 后发送的消息，而频道私域机器人可以响应全量的文字子频道消息，并有额外的频道管理能力（群机器人目前只有公域）。如果想要创建不需要 @机器人 的频道私域机器人，请确保使用频道主的账号进行 QQ 开放平台的注册，并在创建机器人时选择类型为“私域”。</p>
+<p>频道私域机器人额外能力：获取频道成员列表、删除指定频道成员、创建子频道、修改子频道信息、删除指定子频道、可以接收频道内发送的所有消息事件。</p>
+<h2>QQ 机器人介绍与开通</h2>
+<p>想要接入 QQ 机器人，首先需要在 QQ 开放平台进行注册，具体流程请查看 QQ 机器人文档的 <a href="https://bot.q.qq.com/wiki/#%E6%8E%A5%E5%85%A5%E6%B5%81%E7%A8%8B">接入流程</a> 部分，可以使用企业或个人主体入驻（文档中第 2 步或第 3 步）。</p>
+<p>完成开发者账号创建后，登录 <a href="https://q.qq.com/#/app/bot">QQ 开放平台</a> 参考 接入流程 文档的第 4 步创建应用，在 “应用管理” → “机器人” 标签下点击 “创建机器人” 按钮。</p>
+<p>成功创建机器人后在 <a href="https://q.qq.com/bot/#/developer/developer-setting">开发设置</a> 界面获取机器人的 BotAppID、机器人令牌、机器人密钥。</p>
+<h2>NoneBot 项目创建与配置</h2>
+<p>本文中的 NoneBot 均指 NoneBot2。NoneBot2 是一个可扩展的 Python 异步机器人框架，它会对机器人收到的事件进行解析和处理，并以插件化的形式，按优先级分发给事件所对应的事件响应器，来完成具体的功能。</p>
+<h3>测试项目创建</h3>
+<p>如果未使用过 NoneBot，建议首先创建一个测试用的 Bot 工程以熟悉项目创建流程。</p>
+<p>参考 NoneBot 文档的 <a href="https://nonebot.dev/docs/quick-start">快速上手</a> 章节创建一个基于终端的交互式机器人实例，并测试是否正常工作。</p>
+<h3>项目创建与配置</h3>
+<p>上述测试成功后便可以创建开发 QQ 机器人使用的工程，命令行跳转到放置工程的目录，按照上述 快速上手 章节中 创建项目 部分的操作步骤，项目模板 选择 <code>simple（插件开发者）</code>，并按下面的内容选择驱动器和适配器：</p>
+<pre class="highlight"><code>[?] 要使用哪些驱动器? HTTPX (HTTPX 驱动器), websockets (websockets 驱动器)
+[?] 要使用哪些适配器? QQ (QQ 官方机器人)</code></pre>
+
+
+<p>完成项目创建后，参考 <a href="https://github.com/nonebot/adapter-qq">QQ 适配器文档</a> 进行 QQ 适配器配置，打开项目目录下的 <code>.env</code> 文件（如果没有这个文件，请在创建时选择 <code>simple</code> 模板），添加以下内容：</p>
+<pre class="highlight"><code>QQ_IS_SANDBOX=true
+QQ_BOTS='
+[
+  {
+    &quot;id&quot;: &quot;xxx&quot;,
+    &quot;token&quot;: &quot;xxx&quot;,
+    &quot;secret&quot;: &quot;xxx&quot;,
+    &quot;intent&quot;: {
+      &quot;guild_messages&quot;: true,
+      &quot;at_messages&quot;: false
+    }
+  }
+]
+'</code></pre>
+
+
+<p>将 <code>id</code> <code>token</code> <code>secret</code> 分别替换为在 QQ 开放平台获取到的 BotAppID、机器人令牌、机器人密钥。</p>
+<p>以上配置为频道私域机器人，接收全量消息无需 @机器人，如果使用频道公域机器人，将 <code>guild_messages</code> 值改为 <code>false</code>，<code>at_messages</code> 值改为 <code>false</code>，或删去这两个配置项使用默认值。</p>
+<p>完成以上配置后，运行机器人项目，在沙箱频道中 @机器人 并输入 <code>/echo hello world</code> 测试，如果收到回复则配置成功（此处需要 @机器人 是因为 <code>echo</code> 插件只接受与我相关的消息，文字子频道中需要 @机器人 触发）。</p>
+<h2>插件开发</h2>
+<h3>插件编写基础</h3>
+<p>参考 NoneBot 文档中的 <a href="https://nonebot.dev/docs/tutorial/create-plugin">插件编写准备</a>、<a href="https://nonebot.dev/docs/tutorial/matcher">事件响应器</a>、<a href="https://nonebot.dev/docs/tutorial/handler">事件处理</a>、<a href="https://nonebot.dev/docs/tutorial/event-data">获取事件信息</a> 四个部分进行示例插件的创建。</p>
+<p>按照文档创建的插件是可以提供给任何适配器使用的，所以也适用于 QQ 适配器。这种方式的局限性在于无法适用适配器提供的特殊消息类型，而只能发送纯文本，要实现发送图片之类的功能，则需要根据所使用的适配器对发送的消息进行处理。</p>
+<h3>QQ 适配器消息处理</h3>
+<p>参考 NoneBot 文档中的 <a href="https://nonebot.dev/docs/tutorial/message">处理消息</a> 部分，文档中是以 <code>Console</code> 适配器作为示例，与 QQ 适配器有部分不同，QQ 适配器中提供了以下消息段：</p>
+<ul>
+<li><code>MessageSegment.text("abc")</code>: 文本消息段。</li>
+<li><code>MessageSegment.emoji("4")</code>: QQ 表情，ID 参考 QQ 机器人文档的 <a href="https://bot.q.qq.com/wiki/develop/api/openapi/emoji/model.html">表情对象</a> 部分。</li>
+<li><code>MessageSegment.mention_user("12345")</code>: 提及 @用户。</li>
+<li><code>MessageSegment.mention_channel("123")</code>: 提及 #子频道。</li>
+<li><code>MessageSegment.mention_everyone()</code>: 提及 @所有人。</li>
+<li><code>MessageSegment.image("http://example.com/image.png")</code>: 网络图片，需要后台绑定域名。</li>
+<li><code>MessageSegment.MessageSegment.file_image(image)</code>: 本地图片，可以传入 <code>bytes</code> / <code>io.BytesIO</code> / <code>pathlib.Path</code>。</li>
+<li><code>MessageSegment.ark(ark)</code>: Ark 消息，私域被动消息有 Ark 权限，参考 QQ 机器人文档的 <a href="https://bot.q.qq.com/wiki/develop/api/openapi/message/post_ark_messages.html">发送 ARK 模板消息</a> 部分。</li>
+<li><code>MessageSegment.embed(embed)</code>: Embed 消息，<a href="https://bot.q.qq.com/wiki/develop/api/openapi/message/template/embed_message.html">文档</a>。</li>
+<li><code>MessageSegment.markdown(markdown)</code>: Markdown 模板消息和 Markdown 消息，需要内邀开通，<a href="https://bot.q.qq.com/wiki/develop/api/openapi/message/post_markdown_messages.html">文档</a>。</li>
+<li><code>MessageSegment.keyboard(keyboard)</code>: Markdown 消息的按钮列表，需要内邀开通，<a href="https://bot.q.qq.com/wiki/develop/api/openapi/message/message_keyboard.html">文档</a>。</li>
+</ul>
+<p>使用以上消息段进行消息拼接，便可以使用 QQ 适配器的特有消息类型进行消息发送和回复。以 NoneBot 文档中的插件示例为例，可以修改为：</p>
+<pre class="highlight"><code class="language-python">from nonebot import on_command
+from nonebot.rule import to_me
+from nonebot.adapters import Message
+from nonebot.params import CommandArg
+
+# 文件系统路径 Python 标准库
+# 用于创建本地文件路径
+from pathlib import Path
+
+# 从 QQ 适配器导入消息段
+from nonebot.adapters.qq import MessageSegment
+
+weather = on_command(
+    &quot;天气&quot;, rule=to_me(), aliases={&quot;weather&quot;, &quot;查天气&quot;}, priority=10, block=True
+)
+
+@weather.handle()
+async def handle_function(args: Message = CommandArg()):
+    # 提取参数纯文本作为地名，并判断是否有效
+    if location := args.extract_plain_text():
+        image = Path(&quot;data/image.png&quot;)
+        messaege = f&quot;今天{location}的天气是...&quot; + MessageSegment.file_image(image)
+        await weather.finish(messaege)
+    else:
+        messaege = MessageSegment.emoji(&quot;123&quot;) + &quot;请输入地名&quot;
+        await weather.finish(messaege)</code></pre>
+
+
+<h3>QQ 适配器 API 调用</h3>
+<p>QQ 适配器提供了 API 的封装，可以直接使用 Bot 实例进行调用，QQ 适配器中提供的 API 可在 <a href="https://bot.q.qq.com/wiki/develop/api/">API 文档</a> 中查看，推荐使用输入关键词加上自动补全（如使用 Visual Studio Code 的 Pylance 扩展）来快速找到对应的 API 封装名称和参数列表，示例如下：</p>
+<pre class="highlight"><code class="language-python">from nonebot import on_command
+from nonebot.adapters.qq import Bot, MessageCreateEvent
+
+test = on_command(&quot;test&quot;)
+
+@test.handle()
+async def handle_function(bot: Bot, event: MessageCreateEvent):
+    guild = await bot.get_guild(guild_id=event.guild_id)
+    member = await bot.get_member(guild_id=guild.id, user_id=event.get_user_id())
+    await test.finish(member.json())</code></pre>
+
+
+<p>更加深入的开发请参考 <a href="https://nonebot.dev/docs">NoneBot 文档</a>。</p>]]></description>
+      <guid isPermaLink="false">https://xiaohei.moe/post/2023/10/21/nonebot-qq-bot-development/</guid>
+      <pubDate>Sat, 21 Oct 2023 17:15:00 +0806</pubDate>
     </item>
   </channel>
 </rss>
