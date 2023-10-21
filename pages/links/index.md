@@ -1,5 +1,5 @@
 ---
-title: A demo page
+title: 链接
 ---
 
-This is a demo page.
+暂无内容
