@@ -8,5 +8,7 @@ language = "zh-Hans"
 
 [config]
 posts_per_index_page = 20
+disqus_enabled = true
+disqus_short_name = "xiaohei-terminal"
 hitokoto_enabled = true
 hitokoto_categories = ["a", "d", "i", "k"]
