@@ -9,7 +9,7 @@ created: 2023-10-21 17:15:00
 
 ## 前期准备
 
-## 了解机器人能力
+### 了解机器人能力
 
 QQ 机器人应用于频道和群聊两个主要场景，可以在单聊、群聊、文字子频道、频道私信使用，提供的频道机器人能力可以参考 [API 文档](https://bot.q.qq.com/wiki/develop/api/)；群聊机器人能力暂未公开发布，可先参考 [QQ Bot 开发者文档【内测版】](https://docs.qq.com/doc/DRkVHT1N2a1JYSnVr)。
 
