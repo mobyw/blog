@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{% extends 'layout.html.j2' %}
 
 {% block head %}
 {{ super() }}
@@ -14,7 +14,7 @@
     <div class="title">
       <h1 class="title">{{ entry.title }}</h1>
     </div>
-    {% include ['custom/meta.html', 'meta.html'] ignore missing %}
+    {% include ['custom/meta.html.j2', 'meta.html.j2'] ignore missing %}
     <div class="content">
       {% if entry.toc %}
       <details open>
@@ -27,7 +27,7 @@
       {{ entry.content | safe }}
     </div>
   </article>
-  {% include ['custom/discuss-thread.html', 'discuss-thread.html'] ignore missing %}
+  {% include ['custom/discuss-thread.html.j2', 'discuss-thread.html.j2'] ignore missing %}
 </main>
 {% endblock %}
 

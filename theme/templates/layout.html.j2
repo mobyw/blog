@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html {%- if global.site.language %} lang="{{ global.site.language }}" {%- endif %}>
+
+<head>
+  {% block head %}
+  {% include ['custom/head.html.j2', 'head.html.j2'] ignore missing %}
+  {% endblock %}
+</head>
+
+<body>
+  {% include ['custom/body_head.html.j2', 'body_head.html.j2'] ignore missing %}
+
+  <header class="header">
+    <nav class="nav">
+      {% include ['custom/nav.html.j2', 'nav.html.j2'] ignore missing %}
+    </nav>
+  </header>
+  <div class="body">
+    {% block body %}{% endblock %}
+  </div>
+
+  {% include 'hitokoto.html.j2' %}
+  <footer class="footer" id="footer">
+    {% include ['custom/footer.html.j2', 'footer.html.j2'] ignore missing %}
+  </footer>
+
+  {% block foot %}
+  {% include ['custom/foot.html.j2', 'foot.html.j2'] ignore missing %}
+  {% endblock %}
+</body>
+
+</html>
