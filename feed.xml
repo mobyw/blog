@@ -7,7 +7,7 @@
     <atom:link href="https://xiaohei.moe/feed.xml" rel="self"/>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Sat, 21 Oct 2023 09:19:43 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 30 Apr 2024 16:49:35 +0000</lastBuildDate>
     <item>
       <title>使用开发平台 API 下载华为云空间文件历史版本</title>
       <link>https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</link>
@@ -38,8 +38,8 @@ code={{code}}&amp;
 client_id={{client_id}}&amp;
 client_secret={{client_secret}}&amp;
 code_verifier=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&amp;
-redirect_uri={{redirect_uri}}</code></pre>
-
+redirect_uri={{redirect_uri}}
+</code></pre>
 
 <p>填写 <code>code</code> <code>client_id</code> <code>client_secret</code> <code>redirect_uri</code>，注意 <code>code</code> 需要进行 URL 编码。发送请求，获得的结果如下：</p>
 <pre class="highlight"><code class="language-json">{
@@ -48,8 +48,8 @@ redirect_uri={{redirect_uri}}</code></pre>
   &quot;token_type&quot;: &quot;Bearer&quot;,
   &quot;expires_in&quot;: 3600,
   &quot;id_token&quot;: &quot;...&quot;
-}</code></pre>
-
+}
+</code></pre>
 
 <p>记录 <code>access_token</code> 内容，在后续步骤中验证使用。</p>
 <h2>恢复文件</h2>
@@ -59,8 +59,8 @@ redirect_uri={{redirect_uri}}</code></pre>
 GET https://driveapis.cloud.huawei.com.cn/drive/v1/files?fields=* HTTP/1.1
 Accept: application/json
 Cache-Control: no-cache
-Authorization: Bearer {{access_token}}</code></pre>
-
+Authorization: Bearer {{access_token}}
+</code></pre>
 
 <p>如果文件较多可以参考 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/server-public-info-0000001050159641">文档</a> 中 <code>mimeType</code> 的介绍进行搜索与排序，下面是一个按编辑日期倒序排序 <code>.docx</code> 文件的示例：</p>
 <pre class="highlight"><code class="language-http">### Get `.docx` file list ordered by editedTime desc
@@ -68,8 +68,8 @@ GET https://driveapis.cloud.huawei.com.cn/drive/v1/files?fields=*&amp;queryParam
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 Cache-Control: no-cache
-Accept: application/json</code></pre>
-
+Accept: application/json
+</code></pre>
 
 <p>测试时该接口经常提示无权限，但多次访问后又会正常返回，如果配置信息正确仍提示 <code>INSUFFICIENT_SCOPE</code> 就多试几次。</p>
 <p>返回结果格式如下：</p>
@@ -96,16 +96,16 @@ Accept: application/json</code></pre>
     }
   ],
   &quot;category&quot;: &quot;drive#fileList&quot;
-}</code></pre>
-
+}
+</code></pre>
 
 <p>找到对应的文件并记录其 <code>id</code>，然后获取其历史记录：</p>
 <pre class="highlight"><code class="language-http">### Get file history
 GET https://driveapis.cloud.huawei.com.cn/drive/v1/files/{{id}}/historyVersions?fields=* HTTP/1.1
 Authorization: Bearer {{access_token}}
 Cache-Control: no-cache
-Accept: application/json</code></pre>
-
+Accept: application/json
+</code></pre>
 
 <p>返回结果如下：</p>
 <pre class="highlight"><code class="language-json">{
@@ -127,15 +127,16 @@ Accept: application/json</code></pre>
     }
   ],
   &quot;category&quot;: &quot;drive#historyVersionList&quot;
-}</code></pre>
-
+}
+</code></pre>
 
 <p>根据编辑时间找到需要的版本（UTC 时间），记录下历史文件的 <code>id</code>，由于和文件 <code>id</code> 重名，在下面表示为 <code>history_id</code>。直接下载对应历史版本文件：</p>
 <pre class="highlight"><code class="language-http">### Get file
 GET https://driveapis.cloud.huawei.com.cn/drive/v1/files/{{id}}/historyVersions/{{history_id}}?form=content HTTP/1.1
 Authorization: Bearer {{access_token}}
 Cache-Control: no-cache
-Accept: application/json</code></pre>]]></description>
+Accept: application/json
+</code></pre>]]></description>
       <guid isPermaLink="false">https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</guid>
       <pubDate>Mon, 13 Mar 2023 13:44:00 +0806</pubDate>
     </item>
@@ -144,10 +145,10 @@ Accept: application/json</code></pre>]]></description>
       <link>https://xiaohei.moe/post/2023/08/07/url-encode-differentiation/</link>
       <description><![CDATA[<p>水群时看到有群友遇到了因 URL 对字符 <code>*</code> 的编码不符合预期问题导致的程序错误，便做此篇测试部分高级语言的 URL 编码实现有何不同。</p>
 <h2>相关标准</h2>
-<p>由于 <a href="https://datatracker.ietf.org/doc/html/rfc1738">RFC 1738: Uniform Resource Locators (URL)</a> 并非互联网标准 (Internet Standard)，故本文参考互联网标准 <a href="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986: Uniform Resource Identifier (URI): Generic Syntax</a> 编写。该标准推荐使用通用术语 "URI"，而不是限制性更强的术语 "URL "和 "URN" <a href="https://datatracker.ietf.org/doc/html/rfc3305">(RFC3305)</a>。</p>
+<p>由于 <a href="https://datatracker.ietf.org/doc/html/rfc1738">RFC 1738: Uniform Resource Locators (URL)</a> 并非互联网标准 (Internet Standard)，故本文参考互联网标准 <a href="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986: Uniform Resource Identifier (URI): Generic Syntax</a> 编写。该标准推荐使用通用术语 "URI"，而不是限制性更强的术语 "URL" 和 "URN" <a href="https://datatracker.ietf.org/doc/html/rfc3305">(RFC3305)</a>。</p>
 <p>RFC 3986 对 URI 中非保留字符的定义如下：</p>
-<pre class="highlight"><code class="language-text">unreserved  = ALPHA / DIGIT / &quot;-&quot; / &quot;.&quot; / &quot;_&quot; / &quot;~&quot;</code></pre>
-
+<pre class="highlight"><code class="language-text">unreserved  = ALPHA / DIGIT / &quot;-&quot; / &quot;.&quot; / &quot;_&quot; / &quot;~&quot;
+</code></pre>
 
 <p>在 URI 编码时，对于非保留字符 <code>unreserved</code> 应保持不进行转义，但是该标准同样说明了如果遇到了转义了这些字符的 URI 编码，在解码时仍需要将其恢复为原字符。</p>
 <pre class="highlight"><code class="language-text">URIs that differ in the replacement of an unreserved character with
@@ -158,22 +159,22 @@ do not always perform normalization prior to comparison (see Section
 (%41-%5A and %61-%7A), DIGIT (%30-%39), hyphen (%2D), period (%2E),
 underscore (%5F), or tilde (%7E) should not be created by URI
 producers and, when found in a URI, should be decoded to their
-corresponding unreserved characters by URI normalizers.</code></pre>
-
+corresponding unreserved characters by URI normalizers.
+</code></pre>
 
 <p>该标准中同样指出了 <code>~</code> 字符在旧的 URI 编码实现中经常转义为 <code>%7E</code>。</p>
 <pre class="highlight"><code class="language-text">For example, the octet
 corresponding to the tilde (&quot;~&quot;) character is often encoded as &quot;%7E&quot;
 by older URI processing implementations; the &quot;%7E&quot; can be replaced by
-&quot;~&quot; without changing its interpretation.</code></pre>
-
+&quot;~&quot; without changing its interpretation.
+</code></pre>
 
 <p>对于可能需要转义的保留字符，该标准将其分为两类：</p>
 <pre class="highlight"><code class="language-text">reserved    = gen-delims / sub-delims
 gen-delims  = &quot;:&quot; / &quot;/&quot; / &quot;?&quot; / &quot;#&quot; / &quot;[&quot; / &quot;]&quot; / &quot;@&quot;
 sub-delims  = &quot;!&quot; / &quot;$&quot; / &quot;&amp;&quot; / &quot;'&quot; / &quot;(&quot; / &quot;)&quot;
-            / &quot;*&quot; / &quot;+&quot; / &quot;,&quot; / &quot;;&quot; / &quot;=&quot;</code></pre>
-
+            / &quot;*&quot; / &quot;+&quot; / &quot;,&quot; / &quot;;&quot; / &quot;=&quot;
+</code></pre>
 
 <p>其中 <code>gen-delims</code> 和 URI 的结构相关，必须要进行转义，而 <code>sub-delims</code> 是否需要需要根据所在位置判断。特别地，由于转义使用 <code>%</code> 符号，所以 <code>%</code> 符号自身也需要进行转义。</p>
 <p>典型的 URI 组成部分如下：</p>
@@ -183,8 +184,8 @@ sub-delims  = &quot;!&quot; / &quot;$&quot; / &quot;&amp;&quot; / &quot;'&quot; 
     scheme     authority       path        query   fragment
        |   _____________________|__
       / \ /                        \
-      urn:example:animal:ferret:nose</code></pre>
-
+      urn:example:animal:ferret:nose
+</code></pre>
 
 <p>与 <code>sub-delims</code> 相关的文法片段如下：</p>
 <pre class="highlight"><code class="language-text">authority     = [ userinfo &quot;@&quot; ] host [ &quot;:&quot; port ]
@@ -213,79 +214,114 @@ pchar         = unreserved / pct-encoded / sub-delims / &quot;:&quot; / &quot;@&
 
 query         = *( pchar / &quot;/&quot; / &quot;?&quot; )
 
-fragment      = *( pchar / &quot;/&quot; / &quot;?&quot; )</code></pre>
+fragment      = *( pchar / &quot;/&quot; / &quot;?&quot; )
+</code></pre>
 
-
-<p>如果按照以上文法推导，<code>sub-delims</code> 中的字符在 <code>authority</code> <code>path</code> <code>query</code> <code>fragment</code> 中均可能保持原样。为找出不同高级语言对这些字符转义处理的差别，下面进行了一个简单的测试，先给出了测试结果，具体的测试代码及输出在最后给出。</p>
+<p>如果按照以上文法推导，<code>sub-delims</code> 中的字符在 <code>authority</code> <code>path</code> <code>query</code> <code>fragment</code> 中均可能保持原样。</p>
+<p>另外，空格字符在 <code>application/x-www-form-urlencoded</code> 类型中编码为 <code>+</code>，而在 RFC 3986 中的编码为 <code>%20</code>。</p>
+<p>为找出不同高级语言对这些字符转义处理的差别，下面进行了一个简单的测试，先给出了测试结果，具体的测试代码及输出在最后给出。</p>
 <h2>测试结果</h2>
-<p>仅测试了在 <code>query</code> 段中的编码和解码情况，在所有编码测试中，以 <code>sub-delims</code> 中的字符均已编码，<code>unreserved</code> 中的特殊字符均未编码为参考结果，标注与参考结果有差别的字符表。解码测试使用全部特殊字符转义的字符串，由于解码结果均相同，不额外展示在表格中。</p>
+<p>仅测试了在 <code>query</code> 段中的编码和解码情况，在所有编码测试中，以 <code>sub-delims</code> 中的字符均已编码，<code>unreserved</code> 中的特殊字符均未编码为参考结果，标注与参考结果有差别的字符表，另外单列了对空格的转义情况。解码测试使用全部特殊字符转义的字符串，由于解码结果均相同，不额外展示在表格中。</p>
 <table>
 <thead>
 <tr>
 <th>语言</th>
 <th>Module / Function</th>
-<th align="center"><code>sub-delims</code> 未被转义</th>
-<th align="center"><code>unreserved</code> 被转义</th>
+<th style="text-align: center;"><code>sub-delims</code><br/> 未被转义</th>
+<th style="text-align: center;"><code>unreserved</code> <br/>被转义</th>
+<th style="text-align: center;">SP 编码</th>
+<th style="text-align: center;"><code>+</code> 解码</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Python</td>
+<td>Python 3</td>
 <td><code>urllib.parse</code></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><code>+</code></td>
+<td style="text-align: center;">需使用 <code>unquote_plus</code></td>
 </tr>
 <tr>
 <td>Go</td>
 <td><code>net/url</code></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><code>+</code></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>Java</td>
-<td><code>java.net.URLEncoder</code> <code>java.net.URLDecoder</code></td>
-<td align="center"><code>*</code></td>
-<td align="center"><code>~</code></td>
+<td><code>java.net.URLEncoder</code> <br/> <code>java.net.URLDecoder</code></td>
+<td style="text-align: center;"><code>*</code></td>
+<td style="text-align: center;"><code>~</code></td>
+<td style="text-align: center;"><code>+</code></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>JavaScript</td>
 <td><code>URLSearchParams</code></td>
-<td align="center"><code>*</code></td>
-<td align="center"><code>~</code></td>
+<td style="text-align: center;"><code>*</code></td>
+<td style="text-align: center;"><code>~</code></td>
+<td style="text-align: center;"><code>+</code></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td><code>encodeURIComponent</code><br/> <code>decodeURIComponent</code></td>
+<td style="text-align: center;"><code>*</code></td>
+<td style="text-align: center;"><code>~</code></td>
+<td style="text-align: center;"><code>%20</code></td>
+<td style="text-align: center;">无法解码 <code>+</code></td>
 </tr>
 <tr>
 <td>Node.js</td>
 <td><code>querystring</code></td>
-<td align="center"><code>!'()*</code></td>
-<td align="center"></td>
+<td style="text-align: center;"><code>!'()*</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><code>%20</code></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>C#</td>
 <td><code>System.Net.WebUtility</code></td>
-<td align="center"><code>!()*</code></td>
-<td align="center"></td>
+<td style="text-align: center;"><code>!()*</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><code>+</code></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
 <td>PHP</td>
-<td><code>http_build_query</code> <code>parse_str</code></td>
-<td align="center"></td>
-<td align="center"><code>~</code></td>
+<td><code>urlencode</code> <br/> <code>urldecode</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><code>~</code></td>
+<td style="text-align: center;"><code>+</code></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td>PHP</td>
+<td><code>rawurlencode</code><br/> <code>rawurldecode</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><code>%20</code></td>
+<td style="text-align: center;">无法解码 <code>+</code></td>
 </tr>
 </tbody>
 </table>
 <p>虽然编码时对符号的转义处理不同，但是使用全部转义的 <code>sub-delims</code> 以及 <code>unreserved</code> 中的特殊字符进行测试时被测程序都能正确进行解码。</p>
-<p>详细的测试结果如下。</p>
 <h2>测试代码</h2>
-<p>Python:</p>
-<pre class="highlight"><code class="language-python">from urllib.parse import urlencode, unquote
+<p>Python 3:</p>
+<pre class="highlight"><code class="language-python">from urllib.parse import urlencode, unquote, unquote_plus
 
-print(urlencode({&quot;param&quot;:&quot;!$&amp;'()*+,;=-._~&quot;}))
-print(unquote(&quot;param=%21%24%26%27%28%29%2A%2B%2C%3B%3D%2d%2e%5f%7e&quot;))</code></pre>
+print(urlencode({&quot;param&quot;:&quot; !$&amp;'()*+,;=-._~&quot;}))
+print(unquote(&quot;param=a+b&quot;))
+print(unquote_plus(&quot;param=a+b&quot;))
+</code></pre>
 
-
-<pre class="highlight"><code class="language-text">param=%21%24%26%27%28%29%2A%2B%2C%3B%3D-._~
-param=!$&amp;'()*+,;=-._~</code></pre>
-
+<pre class="highlight"><code class="language-text">param=+%21%24%26%27%28%29%2A%2B%2C%3B%3D-._~
+param=a+b
+param=a b
+</code></pre>
 
 <p>Go:</p>
 <pre class="highlight"><code class="language-go">package main
@@ -296,14 +332,14 @@ import (
 )
 
 func main() {
-    fmt.Println(url.QueryEscape(&quot;!$&amp;'()*+,;=-._~&quot;))
-    fmt.Println(url.QueryUnescape(&quot;%21%24%26%27%28%29%2A%2B%2C%3B%3D%2d%2e%5f%7e&quot;))
-}</code></pre>
+    fmt.Println(url.QueryEscape(&quot; !$&amp;'()*+,;=-._~&quot;))
+    fmt.Println(url.QueryUnescape(&quot;a+b&quot;))
+}
+</code></pre>
 
-
-<pre class="highlight"><code class="language-text">%21%24%26%27%28%29%2A%2B%2C%3B%3D-._~
-!$&amp;'()*+,;=-._~ &lt;nil&gt;</code></pre>
-
+<pre class="highlight"><code class="language-text">+%21%24%26%27%28%29%2A%2B%2C%3B%3D-._~
+a b &lt;nil&gt;
+</code></pre>
 
 <p>Java:</p>
 <pre class="highlight"><code class="language-java">import java.io.UnsupportedEncodingException;
@@ -313,37 +349,41 @@ import java.nio.charset.StandardCharsets;
 
 public class Main {
     public static void main(String[] args) throws UnsupportedEncodingException {
-        System.out.println(URLEncoder.encode(&quot;!$&amp;'()*+,;=-._~&quot;, StandardCharsets.UTF_8.toString()));
-        System.out.println(URLDecoder.decode(&quot;%21%24%26%27%28%29%2A%2B%2C%3B%3D%2d%2e%5f%7e&quot;, StandardCharsets.UTF_8.toString()));
+        System.out.println(URLEncoder.encode(&quot; !$&amp;'()*+,;=-._~&quot;, StandardCharsets.UTF_8.toString()));
+        System.out.println(URLDecoder.decode(&quot;a+b&quot;, StandardCharsets.UTF_8.toString()));
     }
-}</code></pre>
+}
+</code></pre>
 
-
-<pre class="highlight"><code class="language-text">%21%24%26%27%28%29*%2B%2C%3B%3D-._%7E
-!$&amp;'()*+,;=-._~</code></pre>
-
+<pre class="highlight"><code class="language-text">+%21%24%26%27%28%29*%2B%2C%3B%3D-._%7E
+a b
+</code></pre>
 
 <p>JavaScript:</p>
 <pre class="highlight"><code class="language-js">const encode = new URLSearchParams();
-encode.set(&quot;param&quot;, &quot;!$&amp;'()*+,;=-._~&quot;);
+encode.set(&quot;param&quot;, &quot; !$&amp;'()*+,;=-._~&quot;);
 console.log(encode.toString());
-const decode = new URLSearchParams(&quot;param=%21%24%26%27%28%29%2A%2B%2C%3B%3D%2d%2e%5f%7e&quot;);
-console.log(encode.get(&quot;param&quot;));</code></pre>
+const decode = new URLSearchParams(&quot;param=a+b&quot;);
+console.log(decode.get(&quot;param&quot;));
+console.log(encodeURIComponent(&quot; !$&amp;'()*+,;=-._~&quot;));
+console.log(decodeURIComponent(&quot;a+b&quot;));
+</code></pre>
 
+<pre class="highlight"><code class="language-text">param=+%21%24%26%27%28%29*%2B%2C%3B%3D-._%7E
+a b
+%20!%24%26'()*%2B%2C%3B%3D-._~
+a+b
+</code></pre>
 
-<pre class="highlight"><code class="language-text">param=%21%24%26%27%28%29*%2B%2C%3B%3D-._%7E
-!$&amp;'()*+,;=-._~</code></pre>
-
-
-<p>Node.js(JavaScript):</p>
+<p>Node.js:</p>
 <pre class="highlight"><code class="language-js">const querystring = require(&quot;querystring&quot;);
-console.log(querystring.stringify({ param: &quot;!$&amp;'()*+,;=-._~&quot; }));
-console.log(querystring.parse(&quot;param=%21%24%26%27%28%29%2A%2B%2C%3B%3D%2d%2e%5f%7e&quot;).param);</code></pre>
+console.log(querystring.stringify({ param: &quot; !$&amp;'()*+,;=-._~&quot; }));
+console.log(querystring.parse(&quot;param=a+b&quot;).param);
+</code></pre>
 
-
-<pre class="highlight"><code class="language-text">param=!%24%26'()*%2B%2C%3B%3D-._~
-!$&amp;'()*+,;=-._~</code></pre>
-
+<pre class="highlight"><code class="language-text">param=%20!%24%26'()*%2B%2C%3B%3D-._~
+a b
+</code></pre>
 
 <p>C#:</p>
 <pre class="highlight"><code class="language-cs">using System;
@@ -352,27 +392,30 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine(System.Net.WebUtility.UrlEncode(&quot;!$&amp;'()*+,;=-._~&quot;));
-        Console.WriteLine(System.Net.WebUtility.UrlDecode(&quot;%21%24%26%27%28%29%2A%2B%2C%3B%3D%2d%2e%5f%7e&quot;));
+        Console.WriteLine(System.Net.WebUtility.UrlEncode(&quot; !$&amp;'()*+,;=-._~&quot;));
+        Console.WriteLine(System.Net.WebUtility.UrlDecode(&quot;a+b&quot;));
     }
-}</code></pre>
+}
+</code></pre>
 
-
-<pre class="highlight"><code class="language-text">!%24%26%27()*%2B%2C%3B%3D-._%7E
-!$&amp;'()*+,;=-._~</code></pre>
-
+<pre class="highlight"><code class="language-text">+!%24%26%27()*%2B%2C%3B%3D-._%7E
+a b
+</code></pre>
 
 <p>PHP:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
-echo http_build_query([&quot;param&quot; =&gt; &quot;!$&amp;'()*+,;=-._~&quot;]) . &quot;\n&quot;;
-$decoded = [];
-parse_str(&quot;param=%21%24%26%27%28%29%2A%2B%2C%3B%3D%2d%2e%5f%7e&quot;, $decoded);
-echo $decoded[&quot;param&quot;] . &quot;\n&quot;;
-?&gt;</code></pre>
+echo urlencode(&quot; !$&amp;'()*+,;=-._~&quot;) . &quot;\n&quot;;
+echo urldecode(&quot;a+b&quot;) . &quot;\n&quot;;
+echo rawurlencode(&quot; !$&amp;'()*+,;=-._~&quot;) . &quot;\n&quot;;
+echo rawurldecode(&quot;a+b&quot;) . &quot;\n&quot;;
+?&gt;
+</code></pre>
 
-
-<pre class="highlight"><code class="language-text">param=%21%24%26%27%28%29%2A%2B%2C%3B%3D-._%7E
-!$&amp;'()*+,;=-._~</code></pre>]]></description>
+<pre class="highlight"><code class="language-text">+%21%24%26%27%28%29%2A%2B%2C%3B%3D-._%7E
+a b
+%20%21%24%26%27%28%29%2A%2B%2C%3B%3D-._~
+a+b
+</code></pre>]]></description>
       <guid isPermaLink="false">https://xiaohei.moe/post/2023/08/07/url-encode-differentiation/</guid>
       <pubDate>Mon, 07 Aug 2023 20:00:00 +0806</pubDate>
     </item>
@@ -407,8 +450,8 @@ echo $decoded[&quot;param&quot;] . &quot;\n&quot;;
 <h3>项目创建与配置</h3>
 <p>上述测试成功后便可以创建开发 QQ 机器人使用的工程，命令行跳转到放置工程的目录，按照上述 快速上手 章节中 创建项目 部分的操作步骤，项目模板 选择 <code>simple（插件开发者）</code>，并按下面的内容选择驱动器和适配器：</p>
 <pre class="highlight"><code>[?] 要使用哪些驱动器? HTTPX (HTTPX 驱动器), websockets (websockets 驱动器)
-[?] 要使用哪些适配器? QQ (QQ 官方机器人)</code></pre>
-
+[?] 要使用哪些适配器? QQ (QQ 官方机器人)
+</code></pre>
 
 <p>完成项目创建后，参考 <a href="https://github.com/nonebot/adapter-qq">QQ 适配器文档</a> 进行 QQ 适配器配置，打开项目目录下的 <code>.env</code> 文件（如果没有这个文件，请在创建时选择 <code>simple</code> 模板），添加以下内容：</p>
 <pre class="highlight"><code>QQ_IS_SANDBOX=true
@@ -424,8 +467,8 @@ QQ_BOTS='
     }
   }
 ]
-'</code></pre>
-
+'
+</code></pre>
 
 <p>将 <code>id</code> <code>token</code> <code>secret</code> 分别替换为在 QQ 开放平台获取到的 BotAppID、机器人令牌、机器人密钥。</p>
 <p>以上配置为频道私域机器人，接收全量消息无需 @机器人，如果使用频道公域机器人，将 <code>guild_messages</code> 值改为 <code>false</code>，<code>at_messages</code> 值改为 <code>false</code>，或删去这两个配置项使用默认值。</p>
@@ -475,8 +518,8 @@ async def handle_function(args: Message = CommandArg()):
         await weather.finish(messaege)
     else:
         messaege = MessageSegment.emoji(&quot;123&quot;) + &quot;请输入地名&quot;
-        await weather.finish(messaege)</code></pre>
-
+        await weather.finish(messaege)
+</code></pre>
 
 <h3>QQ 适配器 API 调用</h3>
 <p>QQ 适配器提供了 API 的封装，可以直接使用 Bot 实例进行调用，QQ 适配器中提供的 API 可在 <a href="https://bot.q.qq.com/wiki/develop/api/">API 文档</a> 中查看，推荐使用输入关键词加上自动补全（如使用 Visual Studio Code 的 Pylance 扩展）来快速找到对应的 API 封装名称和参数列表，示例如下：</p>
@@ -489,8 +532,8 @@ test = on_command(&quot;test&quot;)
 async def handle_function(bot: Bot, event: MessageCreateEvent):
     guild = await bot.get_guild(guild_id=event.guild_id)
     member = await bot.get_member(guild_id=guild.id, user_id=event.get_user_id())
-    await test.finish(member.json())</code></pre>
-
+    await test.finish(member.json())
+</code></pre>
 
 <p>更加深入的开发请参考 <a href="https://nonebot.dev/docs">NoneBot 文档</a>。</p>]]></description>
       <guid isPermaLink="false">https://xiaohei.moe/post/2023/10/21/nonebot-qq-bot-development/</guid>

@@ -25,12 +25,12 @@
   <header class="header">
     <nav class="nav">
       <ul>
-        <li><a href="/">首页</a></li>
-<li><a href="/about/index.html">关于</a></li>
-<li><a href="/links/index.html">链接</a></li>
-<li><a href="https://github.com/mobyw" target="_blank">GitHub</a></li>
-<li><a href="/feed.xml">RSS</a></li>
-      </ul>
+  <li><a href="/">首页</a></li>
+  <li><a href="/about/index.html">关于</a></li>
+  <li><a href="/links/index.html">链接</a></li>
+  <li><a href="https://github.com/mobyw" target="_blank">GitHub</a></li>
+  <li><a href="/feed.xml">RSS</a></li>
+</ul>
     </nav>
   </header>
   <div class="body">
@@ -87,8 +87,8 @@ code={{code}}&amp;
 client_id={{client_id}}&amp;
 client_secret={{client_secret}}&amp;
 code_verifier=ovoy4lehgHbv8uNmif_hak3bH2_Ylk6_fWP0UL232QQ&amp;
-redirect_uri={{redirect_uri}}</code></pre>
-
+redirect_uri={{redirect_uri}}
+</code></pre>
 
 <p>填写 <code>code</code> <code>client_id</code> <code>client_secret</code> <code>redirect_uri</code>，注意 <code>code</code> 需要进行 URL 编码。发送请求，获得的结果如下：</p>
 <pre class="highlight"><code class="language-json">{
@@ -97,8 +97,8 @@ redirect_uri={{redirect_uri}}</code></pre>
   &quot;token_type&quot;: &quot;Bearer&quot;,
   &quot;expires_in&quot;: 3600,
   &quot;id_token&quot;: &quot;...&quot;
-}</code></pre>
-
+}
+</code></pre>
 
 <p>记录 <code>access_token</code> 内容，在后续步骤中验证使用。</p>
 <h2><a id="恢复文件" href="#恢复文件" class="anchor"></a>恢复文件</h2>
@@ -108,8 +108,8 @@ redirect_uri={{redirect_uri}}</code></pre>
 GET https://driveapis.cloud.huawei.com.cn/drive/v1/files?fields=* HTTP/1.1
 Accept: application/json
 Cache-Control: no-cache
-Authorization: Bearer {{access_token}}</code></pre>
-
+Authorization: Bearer {{access_token}}
+</code></pre>
 
 <p>如果文件较多可以参考 <a href="https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/server-public-info-0000001050159641">文档</a> 中 <code>mimeType</code> 的介绍进行搜索与排序，下面是一个按编辑日期倒序排序 <code>.docx</code> 文件的示例：</p>
 <pre class="highlight"><code class="language-http">### Get `.docx` file list ordered by editedTime desc
@@ -117,8 +117,8 @@ GET https://driveapis.cloud.huawei.com.cn/drive/v1/files?fields=*&amp;queryParam
 Content-Type: application/json
 Authorization: Bearer {{access_token}}
 Cache-Control: no-cache
-Accept: application/json</code></pre>
-
+Accept: application/json
+</code></pre>
 
 <p>测试时该接口经常提示无权限，但多次访问后又会正常返回，如果配置信息正确仍提示 <code>INSUFFICIENT_SCOPE</code> 就多试几次。</p>
 <p>返回结果格式如下：</p>
@@ -145,16 +145,16 @@ Accept: application/json</code></pre>
     }
   ],
   &quot;category&quot;: &quot;drive#fileList&quot;
-}</code></pre>
-
+}
+</code></pre>
 
 <p>找到对应的文件并记录其 <code>id</code>，然后获取其历史记录：</p>
 <pre class="highlight"><code class="language-http">### Get file history
 GET https://driveapis.cloud.huawei.com.cn/drive/v1/files/{{id}}/historyVersions?fields=* HTTP/1.1
 Authorization: Bearer {{access_token}}
 Cache-Control: no-cache
-Accept: application/json</code></pre>
-
+Accept: application/json
+</code></pre>
 
 <p>返回结果如下：</p>
 <pre class="highlight"><code class="language-json">{
@@ -176,15 +176,16 @@ Accept: application/json</code></pre>
     }
   ],
   &quot;category&quot;: &quot;drive#historyVersionList&quot;
-}</code></pre>
-
+}
+</code></pre>
 
 <p>根据编辑时间找到需要的版本（UTC 时间），记录下历史文件的 <code>id</code>，由于和文件 <code>id</code> 重名，在下面表示为 <code>history_id</code>。直接下载对应历史版本文件：</p>
 <pre class="highlight"><code class="language-http">### Get file
 GET https://driveapis.cloud.huawei.com.cn/drive/v1/files/{{id}}/historyVersions/{{history_id}}?form=content HTTP/1.1
 Authorization: Bearer {{access_token}}
 Cache-Control: no-cache
-Accept: application/json</code></pre>
+Accept: application/json
+</code></pre>
     </div>
   </article>
   
@@ -231,14 +232,14 @@ Accept: application/json</code></pre>
   
   
   
-  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto%3Ep&amp;c=a&amp;c=d&amp;c=i&amp;c=k"></script>
+  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto%3Ep&c=a&c=d&c=i&c=k"></script>
 </footer>
 
   <footer class="footer" id="footer">
     <p><a href="https://icp.gov.moe/?keyword=20230963" target="_blank">萌ICP备20230963号</a></p>
 <p>&copy; 2022-2023 Xiaohei. All rights reserved.</p>
-<p>Powered by <a href="https://github.com/verilab/purepress">PurePress</a> and <a
-        href="https://github.com/verilab/purepress-theme-minimal">Minimal</a>.</p>
+<p>Modified from <a href="https://github.com/verilab/purepress">PurePress</a> and <a
+    href="https://github.com/verilab/purepress-theme-minimal">Minimal</a>.</p>
   </footer>
 
   
