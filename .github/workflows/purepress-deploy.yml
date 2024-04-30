@@ -14,17 +14,12 @@ jobs:
         with:
           ref: master
 
-      - name: Install Python 3.9
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
-
-      - name: Install Purepress
-        run: pip install purepress
+      - name: Setup Python environment
+        uses: ./.github/actions/setup-python
 
       - name: Build website
         run: |
-          echo "https://xiaohei.moe" | purepress build
+          echo "https://xiaohei.moe" | poetry run purepress build
         working-directory: "./"
 
       - name: Upload build folder to gh-pages branch
