@@ -7,7 +7,7 @@
     <atom:link href="https://xiaohei.moe/feed.xml" rel="self"/>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Fri, 06 Sep 2024 12:45:53 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Sep 2024 12:49:35 +0000</lastBuildDate>
     <item>
       <title>使用开发平台 API 下载华为云空间文件历史版本</title>
       <link>https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</link>
@@ -538,13 +538,6 @@ async def handle_function(bot: Bot, event: MessageCreateEvent):
 <p>更加深入的开发请参考 <a href="https://nonebot.dev/docs">NoneBot 文档</a>。</p>]]></description>
       <guid isPermaLink="false">https://xiaohei.moe/post/2023/10/21/nonebot-qq-bot-development/</guid>
       <pubDate>Sat, 21 Oct 2023 17:15:00 +0806</pubDate>
-    </item>
-    <item>
-      <title>Follow verify</title>
-      <link>https://xiaohei.moe/post/2024/09/06/verify/</link>
-      <description><![CDATA[<p>This message is used to verify that this feed (feedId:54860944275961856) belongs to me (userId:52323271612923904). Join me in enjoying RSS on the next generation information browser <a href="https://follow.is">https://follow.is</a>.</p>]]></description>
-      <guid isPermaLink="false">https://xiaohei.moe/post/2024/09/06/verify/</guid>
-      <pubDate>Fri, 06 Sep 2024 20:44:00 +0806</pubDate>
     </item>
   </channel>
 </rss>
