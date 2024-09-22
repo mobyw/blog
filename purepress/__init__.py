@@ -383,7 +383,8 @@ def feed():
     if config.get("feed_id") and config.get("user_id"):
         # add the custom element
         root = doc.getroot()
-        follow_challenge = xml_elem("follow-challenge", root)
+        channel = root.find("channel")
+        follow_challenge = xml_elem("follow-challenge", channel)
         feed_id = xml_elem("feedId", follow_challenge)
         feed_id.text = config.get("feed_id")
         user_id = xml_elem("userId", follow_challenge)
