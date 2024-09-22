@@ -12,3 +12,5 @@ disqus_enabled = true
 disqus_short_name = "xiaohei-terminal"
 hitokoto_enabled = true
 hitokoto_categories = ["a", "d", "i", "k"]
+feed_id = "54860944275961856"
+user_id = "52323271612923904"

@@ -2,7 +2,9 @@ import os
 import re
 import functools
 from pathlib import Path
-import xml.etree.ElementTree as etree
+
+from xml.etree import ElementTree
+from lxml import etree
 from typing import Any, Callable, Optional
 from datetime import date, datetime, timezone, timedelta
 
@@ -12,6 +14,7 @@ import yaml
 import markdown.extensions
 import markdown.treeprocessors
 from markdown import Markdown
+from feedgen.util import xml_elem
 from html_toc import HtmlTocParser
 from feedgen.feed import FeedGenerator
 from werkzeug.security import safe_join
@@ -64,7 +67,7 @@ app.register_blueprint(theme_bp)
 
 # prepare markdown parser
 class HookImageSrcProcessor(markdown.treeprocessors.Treeprocessor):
-    def run(self, root: etree.Element):
+    def run(self, root: ElementTree.Element):
         static_url = url_for("static", filename="")
         for el in root.iter("img"):
             src = el.get("src", "")
@@ -94,7 +97,7 @@ class HookLinkHrefProcessor(markdown.treeprocessors.Treeprocessor):
             url = re.sub(r"^/raw/", f"{root}/", url)
         return url
 
-    def run(self, root: etree.Element):
+    def run(self, root: ElementTree.Element):
         for el in root.iter("a"):
             href = el.get("href", "")
             if href.startswith("/"):
@@ -375,7 +378,19 @@ def feed():
         feed_entry.updated(p.get("updated", p["created"]).replace(tzinfo=site_tz))
         if "author" in p:
             feed_entry.author(name=p["author"])
+    # generate the feed
+    _, doc = feed_gen._create_rss(extensions=True)
+    if config.get("feed_id") and config.get("user_id"):
+        # add the custom element
+        root = doc.getroot()
+        follow_challenge = xml_elem("follow-challenge", root)
+        feed_id = xml_elem("feedId", follow_challenge)
+        feed_id.text = config.get("feed_id")
+        user_id = xml_elem("userId", follow_challenge)
+        user_id.text = config.get("user_id")
+    # convert back to a string
+    rss_str = etree.tostring(doc, pretty_print=True, encoding="UTF-8", xml_declaration=True)  # type: ignore
     # make http response
-    resp = make_response(feed_gen.rss_str(pretty=True))
+    resp = make_response(rss_str)
     resp.content_type = "application/rss+xml"
     return resp
