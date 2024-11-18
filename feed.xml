@@ -7,7 +7,7 @@
     <atom:link href="https://xiaohei.moe/feed.xml" rel="self"/>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Sun, 22 Sep 2024 14:10:13 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 18 Nov 2024 13:28:58 +0000</lastBuildDate>
     <item>
       <title>使用开发平台 API 下载华为云空间文件历史版本</title>
       <link>https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</link>
@@ -538,6 +538,193 @@ async def handle_function(bot: Bot, event: MessageCreateEvent):
 <p>更加深入的开发请参考 <a href="https://nonebot.dev/docs">NoneBot 文档</a>。</p>]]></description>
       <guid isPermaLink="false">https://xiaohei.moe/post/2023/10/21/nonebot-qq-bot-development/</guid>
       <pubDate>Sat, 21 Oct 2023 17:15:00 +0806</pubDate>
+    </item>
+    <item>
+      <title>香港银行账户开立</title>
+      <link>https://xiaohei.moe/post/2024/11/18/hongkong-bank-card-application/</link>
+      <description><![CDATA[<!-- markdownlint-disable MD024 MD033 -->
+
+<p>即使不需要在海外居住，海外的银行账户也经常会被需要。国际会议注册、海外旅行、海外网购等都可能需要使用海外银行账户。虽然中国内地的银行也有发行 Visa/Mastercard 等借记卡或信用卡，但是可能会被网站拒付，而使用海外银行账户的扣账卡则可以避免这个问题。</p>
+<p>随着近日新加坡华侨银行 OCBC 对持中国大陆护照的开户申请索要额外的证明材料，线上开立海外银行账户的难度进一步提高。但是如果能够前往香港，开立香港银行账户仍然是一个门槛相对较低的选择。本文将介绍如何在香港开立银行账户、申请扣账卡，以及从内地汇款至香港银行账户。</p>
+<h2>概述</h2>
+<p>不同于内地银行的一张银行卡对应一个或多个币种账户，香港银行的账户与卡是分开的。开立账户后，扣账卡可能需要额外申请。存款时使用的是银行账户，消费时可以使用提款卡。</p>
+<p>本文推荐的开户银行是中银香港 BOCHK 以及众安银行 ZA Bank。这两家银行都可以在香港境内线上开户，BOCHK 可以与内地中银同名无手续费互转，ZA Bank 可以提供 Visa 扣账卡，且可以绑定 BOCHK 账户进行充值，或使用 FPS 从 BOCHK 转账到 ZA Bank。</p>
+<p>这样在支持 Visa 但不支持银联或支付宝/微信的网站上，就可以通过以下方式将内地中银卡中的资金转入到 Visa 卡中，再进行消费：</p>
+<p>内地中银卡 -&gt; <em>购汇港币或美元</em> -&gt; <em>汇款</em> -&gt; 中银香港账户 -&gt; <em>FPS</em> -&gt; ZA Bank 账户</p>
+<p>其中汇款一般在工作日的会在当天处理完毕，提交较晚的会在第二天处理，其余步骤均为实时操作。</p>
+<p>ZA Bank 是数字银行，所有操作都可以在手机 App 上完成。而 BOCHK 既能在线上开户，也可以预约线下开户，主要区别如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>账户类型</th>
+<th>扣账卡</th>
+<th>扣账卡类型</th>
+<th>额外材料</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>线上开户</td>
+<td>自在理财</td>
+<td>邮寄</td>
+<td>银联</td>
+<td></td>
+</tr>
+<tr>
+<td>线下开户</td>
+<td>智盈理财</td>
+<td>部分网点现场发卡</td>
+<td>银联<br>Mastercard*</td>
+<td>地址证明<br>理财经验</td>
+</tr>
+</tbody>
+</table>
+<p>* Mastercard 扣账卡当前为特选开放，完成开户后在 App 内申请，部分智盈理财客户无法申请，但是有部分自在理财客户申请成功。</p>
+<p>整个开户过程中可能用到的条件和材料如下：</p>
+<ul>
+<li>已开通国际漫游的内地手机号（接收短信验证码）</li>
+<li>内地身份证</li>
+<li>港澳通行证及签注（若线上开户签注需要打印清晰）</li>
+<li>内地银行卡（ZA Bank 验证需要）</li>
+<li>出入境记录文件（移民局微信小程序申请）</li>
+<li>内地地址证明（仅线下开户）</li>
+<li>香港过关小票（仅线下开户）</li>
+<li>1000 港币现金（仅线下开户）</li>
+<li>理财经验证明（股票、基金账户等，仅线下开户）</li>
+</ul>
+<h2>开户流程</h2>
+<h3>BOCHK 线上开户</h3>
+<h4>开户条件</h4>
+<p>中华人民共和国居民身份证持有人需要满足以下条件才能开户：</p>
+<ul>
+<li>身处香港</li>
+<li>全新客户或未持有任何中银香港个人/联名的储蓄或往来账户</li>
+<li>年满 18 岁或以上</li>
+<li>持有有效中华人民共和国居民身份证、往来港澳通行证</li>
+<li>两种证件由申请日起计必须有 30 天或以上之有效期</li>
+<li>提供国家移民局发出的「出入境纪录」文件 (包括申请日在内的最近 7 日内发出)</li>
+<li>国籍(国家/地区)为中国内地</li>
+<li>持有有效内地电话号码和地址</li>
+</ul>
+<p>申请使用的手机系统需要为 iOS 13 或以上或 Android 8 或以上的版本，并配有前后摄像镜头及重力传感器以便作身份验证。</p>
+<h4>开户流程</h4>
+<p>以下为中国内地访港旅客在线申请中银香港账户的流程：</p>
+<ul>
+<li>微信小程序“移民局”下载出入境记录，解压出 PDF 文件</li>
+<li>安装 BOCHK 中银香港 App</li>
+<li>连接香港本地网络，大部分区域有提供公共 Wi-Fi</li>
+<li>打开手机定位权限，并确保定位处于香港范围内，可使用 Google Maps 刷新定位信息</li>
+<li>打开 BOCHK App，选择开立账户，依次选择内地居民身份证开户、身处香港</li>
+<li>点击即时开立，依次选择我不在分行、自在理财</li>
+<li>上传出入境记录 PDF 文件，完成身份证认证和人脸认证</li>
+<li>拍摄港澳通行证照片</li>
+<li>选择开户原因（按照实际填写即可），填写准确地址信息（扣账卡收件用）</li>
+<li>提示开户成功或等待审核，最晚将会在提交开户申请的 4 个工作日内通知审核结果</li>
+</ul>
+<h4>补充说明</h4>
+<ul>
+<li>在线开户成功时每天转账上限为港币 10,000 元；4 个工作日内完成开户资料内部审阅后提升至港币 210,000 元</li>
+<li>在线开户账户不可以给未登记第三者账户转账</li>
+<li>常见问题：<a href="https://www.bochk.com/dam/more/accountopening/images/faq_sc.pdf">https://www.bochk.com/dam/more/accountopening/images/faq_sc.pdf</a></li>
+</ul>
+<h3>ZA Bank 线上开户</h3>
+<h4>开户条件</h4>
+<p>访港旅客开户必须年满  18 岁，开户时需身处香港境内，且需要提供以下文件/资料：</p>
+<ul>
+<li>有效中国居民身份证正本</li>
+<li>有效往来港澳通行证正本（开户时至少还有 30 日或以上之有效期）</li>
+<li>内地手机号码（可于香港境内接收本地短信及电话）</li>
+<li>内地银行储蓄卡（需与同一内地手机号码绑定）</li>
+</ul>
+<p>注意：定位需要在香港中心区域，不能在靠近边界的地方。</p>
+<h4>开户流程</h4>
+<ul>
+<li>微信小程序“移民局”下载出入境记录，解压出 PDF 文件</li>
+<li>安装 ZA Bank App</li>
+<li>打开 ZA Bank App，点击立即开户</li>
+<li>选择内地居民身份证</li>
+<li>验证手机号码，需要是内地储蓄卡的预留手机号</li>
+<li>填写邀请码 B3L359，或者点击无邀请码</li>
+<li>拍摄身份证正反面，填写准确地址信息（扣账卡收件用）</li>
+<li>填写纳税信息、职业信息、开户目的，按实际情况填写即可</li>
+<li>确认开户资料，确认无误后提交</li>
+<li>设置账户登录用户名和密码</li>
+<li>进行内地储蓄卡验证，需要相同的预留手机号码</li>
+<li>上传出入境记录 PDF 文件</li>
+<li>5 个工作日内通知审核结果</li>
+</ul>
+<h4>补充说明</h4>
+<ul>
+<li>注册过程中会要求设置用户名及密码，审核通过后使用该用户名及密码登录</li>
+<li>成功开户后在 App 中申请 Visa 扣账卡，可自定义后六位卡号，邮寄到内地需要 35 港币</li>
+<li>不建议直接从内地银行汇款到 ZA Bank，会要求提供证明材料，且需要收取手续费</li>
+</ul>
+<h3>BOCHK 线下开户</h3>
+<p>BOCHK 线下开户大概率可以额外申请一张 Mastercard 扣账卡，且根据分行情况可能可以当场发卡。</p>
+<h4>开户条件</h4>
+<p>线下开户默认开立投资账户（仅储蓄账户可能会被拒绝开立），相对于线上开户额外需要地址证明、香港过关小票、1000 港币现金、理财经验证明。理财经验证明可以展示股票账户，或理财产品交易流水，或支付宝基金交易记录等。</p>
+<p>线下开户建议在微信公众号“中银香港微服务”，提前 7 天预约，无预约需要现场拿号排队，且部分分行不接受非预约开户。</p>
+<h4>开户流程</h4>
+<ul>
+<li>安装 BOCHK 中银香港 App、BoC Pay</li>
+<li>按照预约时间到达分行取号以及开户二维码</li>
+<li>BOCHK App 扫二维码填写信息</li>
+<li>填写完成后通知前台等待叫号办理</li>
+<li>按要求提供身份证明资料</li>
+<li>按要求提供地址证明，若使用银行电子账单，需要现场展示原 PDF 文件</li>
+<li>按要求提供投资证明，可能被要求截图发送到柜员邮箱</li>
+<li>被问及资金转入计划时，回答可现场存入 1000 港币，后续使用内地中行汇款</li>
+<li>若分行可以当场发卡，需要往账户中存入 1000 港币激活</li>
+</ul>
+<h4>补充说明</h4>
+<ul>
+<li>线下开户成功后，可以在 App 中申请 Mastercard 扣账卡，支持虚拟卡和实体卡</li>
+</ul>
+<h2>汇款与转账流程</h2>
+<h3>从内地中银汇款至 BOCHK</h3>
+<p>中银内地和中银香港同名账户之间港币和美元汇款免收跨境汇款手续费。中银内地通过手机银行向境外中行汇款时，跨境汇款手续费和电讯费全免。</p>
+<p>条件：中国银行账户为可以结售汇的一类账户</p>
+<p>汇款流程：</p>
+<ul>
+<li>打开中国银行 App，搜索跨境汇款</li>
+<li>点击页面左上境外中行</li>
+<li>填写收款人信息，具体信息见下</li>
+<li>填写汇款人信息，主要是补充地址和邮编</li>
+<li>填写汇款信息，具体信息见下</li>
+<li>核对汇款信息，完成汇款</li>
+</ul>
+<p>收款人信息：</p>
+<ul>
+<li>收款人名称：英文姓名，姓在前名在后</li>
+<li>收款人账户：012 开头 14 位账户号，港币为港元储蓄账户号，美元为外汇宝储蓄账户号</li>
+<li>省/市/州：HONG KONG</li>
+<li>详细地址：1 GARDEN ROAD, CENTRAL, HONG KONG</li>
+<li>SWIFT 地址：BKCHHKHHXXX</li>
+<li>银行名称：BANK OF CHINA (HONG KONG) LIMITED, HONG KONG</li>
+<li>主要地址：BANK OF CHINA TOWER, 1 GARDEN ROAD, CENTRAL, HONG KONG</li>
+</ul>
+<p>汇款信息：</p>
+<ul>
+<li>选择扣款账户，应为具有跨境汇款权限的一类账户</li>
+<li>汇款币种：无法直接汇出人民币，需要购汇为港币或美元</li>
+<li>汇款金额：根据需求填写</li>
+<li>是否本人承担中转费：否</li>
+<li>付款币种：根据需求选择</li>
+<li>手机号：如实填写，如存在问题会直接打电话告知</li>
+<li>收款人常驻国家/地区：中国香港</li>
+<li>汇款用途：根据实际情况选择</li>
+<li>汇款用途详细说明：根据实际情况选择</li>
+</ul>
+<h3>从 BOCHK 转账至 ZA Bank</h3>
+<p>ZA Bank 中可以绑定 BOCHK 账户充值，若不想绑定账户，也可以通过 FPS 从 BOCHK 转账至 ZA Bank。</p>
+<ul>
+<li>打开 BOCHK App，进入 FPS 与转账设置</li>
+<li>查看或新增登记 FPS，可以使用手机号、邮箱或 FPS ID</li>
+<li>在 BOCHK App 中选择转账/FPS，使用 FPS 转账</li>
+</ul>]]></description>
+      <guid isPermaLink="false">https://xiaohei.moe/post/2024/11/18/hongkong-bank-card-application/</guid>
+      <pubDate>Mon, 18 Nov 2024 17:00:00 +0806</pubDate>
     </item>
     <follow_challenge>
       <feedId>54860944275961856</feedId>
