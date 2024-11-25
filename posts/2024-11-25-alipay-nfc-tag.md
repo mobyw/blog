@@ -17,15 +17,11 @@ created: 2024-11-25 20:56:00
 
 以上两种“碰一下”方式的原理是相同的，均为手机扫描 NFC 标签后，根据标签内容启动支付宝应用，并根据标签中的链接跳转至指定页面。本文章将直接对支付宝中申请的“碰一下”收款码及红包码进行分析。
 
-<center>
-<img src="https://s2.loli.net/2024/11/25/N2AcHj84Sh1WDME.jpg" alt="支付宝“碰一下”收款码及红包码" style="max-width: 500px;">
-</center>
+![支付宝“碰一下”收款码及红包码](https://s2.loli.net/2024/11/25/N2AcHj84Sh1WDME.jpg)
 
 使用 [NFC TagInfo by NXP](https://play.google.com/store/apps/details?id=com.nxp.taginfolite) 应用，分别对支付宝“碰一下”收款码及红包码进行扫描并查看，可以发现使用的均为复旦微的 NFC 芯片，NDEF 数据中均包含了两条记录，分别为 URI 和 Android Application Record。其中 URI 记录中包含了支付宝相关链接，而 Android Application Record 记录则为支付宝应用的包名。
 
-<center>
-<img src="https://s2.loli.net/2024/11/25/HMOlogRSkWEvPYe.jpg" alt="收款码及红包码的 NDEF 数据" style="max-width: 800px;">
-</center>
+![支付宝“碰一下”收款码及红包码的 NDEF 数据](https://s2.loli.net/2024/11/25/HMOlogRSkWEvPYe.jpg)
 
 具体分析其 URI 数据，可以发现构成方式如下：
 
@@ -38,17 +34,13 @@ created: 2024-11-25 20:56:00
 
 根据以上分析，可以发现只需要有对应的二维码即可自行制作一个“碰一下”标签。首先需要选择合适的标签类型，根据以上读取中的 230+ bytes 数据量，NTAG213 最大 144 bytes 的 User memory 不足够，可以选择 NTAG215 (504 bytes) 或 NTAG216 (888 bytes) 标签。然后使用 [NFC TagWriter by NXP](https://play.google.com/store/apps/details?id=com.nxp.nfc.tagwriter) 应用将数据写入标签。下图为测试时所使用的 NTAG216 贴纸标签。
 
-<center>
-<img src="https://s2.loli.net/2024/11/25/FUQmejhl8BzyLSk.jpg" alt="NTAG216 标签" style="max-width: 500px;">
-</center>
+![NTAG216 标签](https://s2.loli.net/2024/11/25/FUQmejhl8BzyLSk.jpg)
 
 首先获取到收款二维码的链接 `https://qr.alipay.com/xxxxxxxxxxxxxxxxxxxxxxx`，然后将其进行两次 URL Encode，得到 `https%253A%252F%252Fqr.alipay.com%252Fxxxxxxxxxxxxxxxxxxxxxxx`。使用收款码的 Endpoint 构造完整的 URI 记录，`render.alipay.com/p/s/ulink/sn?s=dc&scheme=alipay%3A%2F%2Fnfc%2Fapp%3Fid%3D10000007%26actionType%3Droute%26codeContent%3Dhttps%253A%252F%252Fqr.alipay.com%252Fxxxxxxxxxxxxxxxxxxxxxxx`
 
 在 NFC TagWriter 中点击 Write Tags，选择 New dataset，然后选择 Launch Application，在应用列表中选择支付宝，或手动输入包名 `com.eg.android.AlipayGphone`，然后依次点击 SAVE&WRITE 和 ADD MORE RECORD，选择 Link，Description 留空，URI type 选择 `https://`，URI data 输入上述构造的 URI 记录，然后依次点击 SAVE&WRITE 和 WRITE，即可贴标签并写入。具体操作可参考下图。
 
-<center>
-<img src="https://s2.loli.net/2024/11/25/nbujGxV1Mrl57kU.jpg" alt="标签写入操作">
-</center>
+![标签写入操作](https://s2.loli.net/2024/11/25/nbujGxV1Mrl57kU.jpg)
 
 此外，如果将以上链接中的 `{URL}` 替换为其他自定义链接，也可以实现“碰一下”使用支付宝打开对应网页的功能。
 
