@@ -36,7 +36,23 @@ created: 2024-11-25 20:56:00
 
 ![NTAG216 标签](https://s2.loli.net/2024/11/25/FUQmejhl8BzyLSk.jpg)
 
-首先获取到收款二维码的链接 `https://qr.alipay.com/xxxxxxxxxxxxxxxxxxxxxxx`，然后将其进行两次 URL Encode，得到 `https%253A%252F%252Fqr.alipay.com%252Fxxxxxxxxxxxxxxxxxxxxxxx`。使用收款码的 Endpoint 构造完整的 URI 记录，`render.alipay.com/p/s/ulink/sn?s=dc&scheme=alipay%3A%2F%2Fnfc%2Fapp%3Fid%3D10000007%26actionType%3Droute%26codeContent%3Dhttps%253A%252F%252Fqr.alipay.com%252Fxxxxxxxxxxxxxxxxxxxxxxx`
+首先获取到收款二维码的链接
+
+```text
+https://qr.alipay.com/xxxxxxxxxxxxxxxxxxxxxxx
+```
+
+将其进行两次 URL Encode，得到
+
+```text
+https%253A%252F%252Fqr.alipay.com%252Fxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+使用收款码的 Endpoint 构造完整的 URI 记录
+
+```text
+render.alipay.com/p/s/ulink/sn?s=dc&scheme=alipay%3A%2F%2Fnfc%2Fapp%3Fid%3D10000007%26actionType%3Droute%26codeContent%3Dhttps%253A%252F%252Fqr.alipay.com%252Fxxxxxxxxxxxxxxxxxxxxxxx
+```
 
 在 NFC TagWriter 中点击 Write Tags，选择 New dataset，然后选择 Launch Application，在应用列表中选择支付宝，或手动输入包名 `com.eg.android.AlipayGphone`，然后依次点击 SAVE&WRITE 和 ADD MORE RECORD，选择 Link，Description 留空，URI type 选择 `https://`，URI data 输入上述构造的 URI 记录，然后依次点击 SAVE&WRITE 和 WRITE，即可贴标签并写入。具体操作可参考下图。
 
