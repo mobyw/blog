@@ -54,6 +54,11 @@
         <nav><ul>
 <li><a href="#原理分析">原理分析</a></li>
 <li><a href="#自制标签">自制标签</a></li>
+<li><a href="#更多玩法">更多玩法</a><ul>
+<li><a href="#定额-碰一下-收款">定额“碰一下”收款</a></li>
+<li><a href="#使用支付宝打开任意第三方网页">使用支付宝打开任意第三方网页</a></li>
+<li><a href="#复制标签">复制标签</a></li>
+</ul></li>
 </ul></nav>
       </details>
       <hr>
@@ -92,7 +97,12 @@
 
 <p>在 NFC TagWriter 中点击 Write Tags，选择 New dataset，然后选择 Launch Application，在应用列表中选择支付宝，或手动输入包名 <code>com.eg.android.AlipayGphone</code>，然后依次点击 SAVE&amp;WRITE 和 ADD MORE RECORD，选择 Link，Description 留空，URI type 选择 <code>https://</code>，URI data 输入上述构造的 URI 记录，然后依次点击 SAVE&amp;WRITE 和 WRITE，即可贴标签并写入。具体操作可参考下图。</p>
 <p><img alt="标签写入操作" src="https://s2.loli.net/2024/11/25/nbujGxV1Mrl57kU.jpg" /></p>
-<p>此外，如果将以上链接中的 <code>{URL}</code> 替换为其他自定义链接，也可以实现“碰一下”使用支付宝打开对应网页的功能。</p>
+<h2><a id="更多玩法" href="#更多玩法" class="anchor"></a>更多玩法</h2>
+<h3><a id="定额-碰一下-收款" href="#定额-碰一下-收款" class="anchor"></a>定额“碰一下”收款</h3>
+<p>默认的“碰一下”收款需要手动输入金额，如果想要实现定额收款，可以在支付宝收款码页面设定金额后保存二维码，然后按照 <a href="#自制标签">自制标签</a> 中的方法写入标签。</p>
+<h3><a id="使用支付宝打开任意第三方网页" href="#使用支付宝打开任意第三方网页" class="anchor"></a>使用支付宝打开任意第三方网页</h3>
+<p>如果将以上链接中的 <code>{URL}</code> 替换为其他自定义链接，可以实现“碰一下”使用支付宝打开对应网页的功能。</p>
+<h3><a id="复制标签" href="#复制标签" class="anchor"></a>复制标签</h3>
 <p>如果已经申请了具有“碰一下”功能的收款码或红包码，也可以直接使用 NFC TagWriter 将其复制到其他的标签，并贴在需要的地方。在推广期间支付宝商家服务中有机会免费领取“碰一下”收款码和红包码。</p>
     </div>
   </article>
