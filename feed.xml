@@ -7,7 +7,7 @@
     <atom:link href="https://xiaohei.moe/feed.xml" rel="self"/>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>python-feedgen</generator>
-    <lastBuildDate>Fri, 10 Jan 2025 14:30:07 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Mar 2025 07:37:09 +0000</lastBuildDate>
     <item>
       <title>使用开发平台 API 下载华为云空间文件历史版本</title>
       <link>https://xiaohei.moe/post/2023/03/13/huawei-drive-file-history/</link>
